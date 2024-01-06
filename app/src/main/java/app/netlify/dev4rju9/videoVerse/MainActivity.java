@@ -1,8 +1,13 @@
 package app.netlify.dev4rju9.videoVerse;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationBarView;
 
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityMainBinding;
 
@@ -20,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: Code Goes Here.
 
-        binding.tvMain.setOnClickListener( v -> binding.tvMain.setText("Hello 4rju9!"));
+        binding.bottomNav.setOnItemSelectedListener( item -> {
+            Toast.makeText(MainActivity.this, "Item Clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        });
 
     }
 
