@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Video Verse</string>
+    <string name="tv_all_videos">All Videos</string>
+    <string name="tv_all_folders">All Folders</string>
 </resources>

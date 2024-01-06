@@ -3,7 +3,7 @@
     <style name="Base.Theme.VideoVerse" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:statusBarColor">@color/deepSkyBlue</item>
+        <item name="android:statusBarColor">@color/deep_sky_blue</item>
     </style>
 
     <style name="Theme.VideoVerse" parent="Base.Theme.VideoVerse" />

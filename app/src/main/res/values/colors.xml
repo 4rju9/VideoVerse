@@ -2,6 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="deepSkyBlue">#00BEF7</color>
-    <color name="whiteSmoke">#F5F5F5</color>
+
+    <!-- Custom Colors -->
+    <color name="deep_sky_blue">#00BEF7</color>
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="cool_green">#64DD17</color>
+    <color name="cool_pink">#F50057</color>
+    <color name="cool_yellow">#FFD600</color>
 </resources>
