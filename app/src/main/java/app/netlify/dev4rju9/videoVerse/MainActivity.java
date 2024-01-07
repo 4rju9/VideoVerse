@@ -54,6 +54,27 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+        binding.navView.setNavigationItemSelectedListener( item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.feedbackNav) {
+                Toast.makeText(MainActivity.this, "Feedback", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (id == R.id.themesNav) {
+                Toast.makeText(MainActivity.this, "Themes", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (id == R.id.sortOrderNav) {
+                Toast.makeText(MainActivity.this, "Sort Order", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (id == R.id.aboutNav) {
+                Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (id == R.id.exitNav) {
+                System.exit(1);
+            }
+            return false;
+        });
+
     }
 
     private void setFragment (Fragment fragment) {
