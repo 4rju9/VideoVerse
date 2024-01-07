@@ -4,26 +4,26 @@
     <item
         android:id="@+id/feedbackNav"
         android:title="@string/tv_feedback"
-        android:icon="@drawable/all_videos_icon"/>
+        android:icon="@drawable/feedback_icon"/>
 
     <item
         android:id="@+id/themesNav"
         android:title="@string/tv_themes"
-        android:icon="@drawable/all_folders_icon"/>
+        android:icon="@drawable/theme_icon"/>
 
     <item
         android:id="@+id/sortOrderNav"
         android:title="@string/tv_sort_order"
-        android:icon="@drawable/all_videos_icon"/>
+        android:icon="@drawable/sort_order_icon"/>
 
     <item
         android:id="@+id/aboutNav"
         android:title="@string/tv_about"
-        android:icon="@drawable/all_folders_icon"/>
+        android:icon="@drawable/about_icon"/>
 
     <item
         android:id="@+id/exitNav"
         android:title="@string/tv_exit"
-        android:icon="@drawable/all_folders_icon"/>
+        android:icon="@drawable/exit_icon"/>
 
 </menu>

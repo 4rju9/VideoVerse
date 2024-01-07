@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="@color/deep_sky_blue">
+    android:layout_height="wrap_content"
+    android:background="@color/deep_sky_blue"
+    android:padding="16dp"
+    android:layout_marginTop="60dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/play"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="13dp"
+        android:text="@string/tv_nav_text"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

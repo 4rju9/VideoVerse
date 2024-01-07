@@ -11,4 +11,5 @@
     <string name="tv_sort_order">Sort Order</string>
     <string name="tv_about">About</string>
     <string name="tv_exit">Exit</string>
+    <string name="tv_nav_text"><![CDATA[Lets forget the world \nand watch a video!]]></string>
 </resources>
