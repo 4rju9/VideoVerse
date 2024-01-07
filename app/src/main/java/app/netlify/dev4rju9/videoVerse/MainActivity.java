@@ -1,14 +1,8 @@
 package app.netlify.dev4rju9.videoVerse;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.google.android.material.navigation.NavigationBarView;
-
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

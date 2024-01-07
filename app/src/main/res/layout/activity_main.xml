@@ -28,8 +28,9 @@
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_nav"
             app:backgroundTint="@color/white"
-            app:itemIconTint="@color/deep_sky_blue"
-            app:itemTextColor="@color/black" />
+            app:itemIconTint="@drawable/bg_icon_selector"
+            app:itemTextColor="@color/black"
+            app:itemActiveIndicatorStyle="@style/Theme.BottomNavigationView.ActiveIndicator"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
