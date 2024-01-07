@@ -1,6 +1,7 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Video Verse</string>
     <string name="tv_all_videos">All Videos</string>
     <string name="tv_all_folders">All Folders</string>
-    <string name="hello_there" tools:ignore="ExtraTranslation">Hello There!</string>
+    <string name="tv_total_videos">Total Videos:</string>
+    <string name="tv_total_folders">Total Folders:</string>
 </resources>
