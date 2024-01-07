@@ -1,12 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.VideoVerse" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.VideoVerse" parent="Theme.MaterialComponents.Light">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:statusBarColor">@color/deep_sky_blue</item>
+        <!-- <item name="colorPrimary">@color/white</item> -->
+        <!-- <item name="colorPrimaryVariant">?attr/colorPrimaryVariant</item> -->
+        <item name="android:statusBarColor">@color/black</item>
     </style>
 
-    <style name="Theme.VideoVerse" parent="Base.Theme.VideoVerse" />
+    <!-- Custom Theme Cool Pink -->
+    <style name="DeepSkyBlueNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/deep_sky_blue</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
 
     <style
         name="Theme.BottomNavigationView.ActiveIndicator"
