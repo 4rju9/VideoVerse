@@ -4,4 +4,11 @@
     <string name="tv_all_folders">All Folders</string>
     <string name="tv_total_videos">Total Videos:</string>
     <string name="tv_total_folders">Total Folders:</string>
+    <string name="tv_open">Open</string>
+    <string name="tv_close">Close</string>
+    <string name="tv_feedback">Feedback</string>
+    <string name="tv_themes">Themes</string>
+    <string name="tv_sort_order">Sort Order</string>
+    <string name="tv_about">About</string>
+    <string name="tv_exit">Exit</string>
 </resources>
