@@ -24,17 +24,10 @@ public class VideoFragment extends Fragment {
 
         FragmentVideoBinding binding = FragmentVideoBinding.bind(view);
 
-        ArrayList<String> tempList = new ArrayList<String>();
-        tempList.add("First Video");
-        tempList.add("Second Video");
-        tempList.add("Third Video");
-        tempList.add("Fourth Video");
-        tempList.add("Fifth Video");
-
         binding.videoRecyclerView.setHasFixedSize(true);
         binding.videoRecyclerView.setItemViewCacheSize(10);
         binding.videoRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.videoRecyclerView.setAdapter(new VideoAdapter(requireContext(), tempList));
+        binding.videoRecyclerView.setAdapter(new VideoAdapter(requireContext(), MainActivity.VIDEO_LIST));
 
         return view;
     }

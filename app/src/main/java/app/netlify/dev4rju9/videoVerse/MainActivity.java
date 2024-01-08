@@ -9,17 +9,27 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.io.File;
+import java.util.ArrayList;
+
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityMainBinding;
+import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class MainActivity extends AppCompatActivity {
 
-    ActivityMainBinding binding;
-    ActionBarDrawerToggle toggle;
+    private ActivityMainBinding binding;
+    private ActionBarDrawerToggle toggle;
+    public static ArrayList<Video> VIDEO_LIST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // TODO: Code Goes Here.
-        checkRuntimePermission();
+        if (checkRuntimePermission()) {
+            VIDEO_LIST = getAllVideos();
+            setFragment(new VideoFragment());
+        }
 
         toggle = new ActionBarDrawerToggle(this, binding.getRoot(), R.string.tv_open, R.string.tv_close);
         binding.getRoot().addDrawerListener(toggle);
@@ -40,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        setFragment(new VideoFragment());
 
         binding.bottomNav.setOnItemSelectedListener( item -> {
 
@@ -135,4 +146,56 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @SuppressLint("Range")
+    private ArrayList<Video> getAllVideos () {
+        ArrayList<Video> tempList = new ArrayList<>();
+
+        String[] projection = {
+                MediaStore.Video.Media.TITLE,
+                MediaStore.Video.Media.SIZE,
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Video.Media.DATA,
+                MediaStore.Video.Media.DATE_ADDED,
+                MediaStore.Video.Media.DURATION
+        };
+
+        Cursor cursor = this.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                projection, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC");
+
+        if (cursor != null) {
+            if (cursor.moveToNext()) {
+                do {
+
+                    String title = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE));
+                    String size = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
+                    String id = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media._ID));
+                    String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME));
+                    String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                    long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
+
+                    try {
+
+                        File file = new File(path);
+                        if (file.exists()) tempList.add(new Video(
+                                id,
+                                title,
+                                folderName,
+                                size,
+                                path,
+                                duration,
+                                Uri.fromFile(file)
+                        ));
+
+                    } catch (Exception ignore) {}
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return tempList;
+    }
+
 }
