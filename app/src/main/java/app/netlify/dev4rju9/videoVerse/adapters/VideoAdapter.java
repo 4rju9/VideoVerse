@@ -4,13 +4,18 @@ import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
+import app.netlify.dev4rju9.videoVerse.R;
 import app.netlify.dev4rju9.videoVerse.databinding.VideoViewBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
@@ -39,6 +44,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.folder.setText(videoList.get(position).getFoderName());
         holder.duration.setText(DateUtils.formatElapsedTime(videoList.get(position).getDuration()/1000));
 
+        Glide.with(context)
+                .asBitmap()
+                .load(videoList.get(position).getVideoUri())
+                .apply(new RequestOptions().placeholder(R.drawable.play).centerCrop())
+                .into(holder.image);
+
     }
 
     @Override
@@ -49,12 +60,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     public class VideoViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, folder, duration;
+        ImageView image;
 
         public VideoViewHolder(VideoViewBinding binding) {
             super(binding.getRoot());
             title = binding.videoTitleName;
             folder = binding.videoFolderName;
             duration = binding.videoDuration;
+            image = binding.videoImage;
         }
     }
 
