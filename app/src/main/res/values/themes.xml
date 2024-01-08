@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.VideoVerse" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.VideoVerse" parent="Theme.Material3.Light">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/white</item> -->
         <!-- <item name="colorPrimaryVariant">?attr/colorPrimaryVariant</item> -->
