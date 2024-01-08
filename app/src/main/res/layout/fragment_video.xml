@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/totalVideos"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_total_videos"
         android:textColor="@color/black"
@@ -22,7 +22,7 @@
         android:dividerHeight="10dp"
         android:divider="@null"
         tools:listitem="@layout/video_view"
-        android:scrollbars="vertical">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@drawable/scroll_bar_icon"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
