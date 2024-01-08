@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -87,8 +90,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestRuntimePermission () {
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 7);
+        if (Build.VERSION.SDK_INT <= 32) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 7);
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_MEDIA_VIDEO}, 7);
+        }
     }
 
     private boolean checkRuntimePermission () {
