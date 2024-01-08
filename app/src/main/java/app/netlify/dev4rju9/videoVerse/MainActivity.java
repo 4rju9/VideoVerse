@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityMainBinding;
+import app.netlify.dev4rju9.videoVerse.models.Folder;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private ActionBarDrawerToggle toggle;
     public static ArrayList<Video> VIDEO_LIST;
+    public static ArrayList<Folder> FOLDER_LIST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: Code Goes Here.
         if (checkRuntimePermission()) {
+            FOLDER_LIST = new ArrayList<>();
             VIDEO_LIST = getAllVideos();
             setFragment(new VideoFragment());
         }
@@ -150,11 +153,13 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("Range")
     private ArrayList<Video> getAllVideos () {
         ArrayList<Video> tempList = new ArrayList<>();
+        ArrayList<String> tempFolder = new ArrayList<>();
 
         String[] projection = {
                 MediaStore.Video.Media.TITLE,
                 MediaStore.Video.Media.SIZE,
                 MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.BUCKET_ID,
                 MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
                 MediaStore.Video.Media.DATA,
                 MediaStore.Video.Media.DATE_ADDED,
@@ -172,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     String size = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
                     String id = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media._ID));
                     String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME));
+                    String folderId = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID));
                     String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                     long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
 
@@ -187,6 +193,14 @@ public class MainActivity extends AppCompatActivity {
                                 duration,
                                 Uri.fromFile(file)
                         ));
+
+                        if (!tempFolder.contains(folderName)) {
+                            tempFolder.add(folderName);
+                            FOLDER_LIST.add(new Folder(
+                                    folderId,
+                                    folderName
+                            ));
+                        }
 
                     } catch (Exception ignore) {}
 
