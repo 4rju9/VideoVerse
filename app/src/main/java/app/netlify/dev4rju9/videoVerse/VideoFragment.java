@@ -27,7 +27,7 @@ public class VideoFragment extends Fragment {
         binding.videoRecyclerView.setHasFixedSize(true);
         binding.videoRecyclerView.setItemViewCacheSize(10);
         binding.videoRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.videoRecyclerView.setAdapter(new VideoAdapter(requireContext(), MainActivity.VIDEO_LIST));
+        binding.videoRecyclerView.setAdapter(new VideoAdapter(requireContext(), MainActivity.VIDEO_LIST, false));
         String size = getResources().getString(R.string.tv_total_videos) + " " + MainActivity.VIDEO_LIST.size();
         binding.totalVideos.setText(size);
 

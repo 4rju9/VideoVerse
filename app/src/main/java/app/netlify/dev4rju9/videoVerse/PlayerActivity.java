@@ -2,17 +2,23 @@ package app.netlify.dev4rju9.videoVerse;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 
+import java.util.ArrayList;
+
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
+import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class PlayerActivity extends AppCompatActivity {
 
+    public static int POS = -1;
+    public static boolean IS_FOLDER = false;
     ActivityPlayerBinding binding;
+    public static ArrayList<Video> PLAYER_LIST;
+    public static ExoPlayer exoPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,19 +27,39 @@ public class PlayerActivity extends AppCompatActivity {
         binding = ActivityPlayerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Intent intent = getIntent();
+        initializePlayer();
 
-        if (intent != null) {
+    }
 
-            ExoPlayer exoPlayer = new ExoPlayer.Builder(this).build();
-            binding.playerView.setPlayer(exoPlayer);
+    private void initializePlayer () {
 
-            MediaItem mediaItem = MediaItem.fromUri(MainActivity.VIDEO_LIST.get(intent.getIntExtra("pos", 0)).getVideoUri());
-            exoPlayer.setMediaItem(mediaItem);
-            exoPlayer.prepare();
-            exoPlayer.play();
-
+        if (IS_FOLDER) {
+            PLAYER_LIST = new ArrayList<>();
+            PLAYER_LIST = FoldersActivity.LIST;
+        } else {
+            PLAYER_LIST = new ArrayList<>();
+            PLAYER_LIST = MainActivity.VIDEO_LIST;
         }
 
+        createPlayer();
+
+    }
+
+    private void createPlayer () {
+
+        exoPlayer = new ExoPlayer.Builder(this).build();
+        binding.playerView.setPlayer(exoPlayer);
+
+        MediaItem mediaItem = MediaItem.fromUri(PlayerActivity.PLAYER_LIST.get(POS).getVideoUri());
+        exoPlayer.setMediaItem(mediaItem);
+        exoPlayer.setPlayWhenReady(true);
+        exoPlayer.prepare();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        exoPlayer.release();
     }
 }

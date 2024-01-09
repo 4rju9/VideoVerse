@@ -18,12 +18,11 @@ import java.util.ArrayList;
 
 import app.netlify.dev4rju9.videoVerse.adapters.VideoAdapter;
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityFoldersBinding;
-import app.netlify.dev4rju9.videoVerse.models.Folder;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class FoldersActivity extends AppCompatActivity {
 
-    public static ArrayList<Video> list;
+    public static ArrayList<Video> LIST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +43,13 @@ public class FoldersActivity extends AppCompatActivity {
             bar.setTitle(MainActivity.FOLDER_LIST.get(position).getFolderName());
         }
 
-        list = getAllVideos(MainActivity.FOLDER_LIST.get(position).getId());
+        LIST = getAllVideos(MainActivity.FOLDER_LIST.get(position).getId());
 
         binding.videoRecyclerViewFolder.setHasFixedSize(true);
         binding.videoRecyclerViewFolder.setItemViewCacheSize(10);
         binding.videoRecyclerViewFolder.setLayoutManager(new LinearLayoutManager(this));
-        binding.videoRecyclerViewFolder.setAdapter(new VideoAdapter(this, list));
-        String size = getResources().getString(R.string.tv_total_videos) + " " + list.size();
+        binding.videoRecyclerViewFolder.setAdapter(new VideoAdapter(this, LIST, true));
+        String size = getResources().getString(R.string.tv_total_videos) + " " + LIST.size();
         binding.totalVideosFolder.setText(size);
 
     }
@@ -78,7 +77,7 @@ public class FoldersActivity extends AppCompatActivity {
         };
 
         Cursor cursor = this.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                projection, selection, new String[] {ID}, MediaStore.Video.Media.DATE_ADDED + " DESC");
+                projection, selection, new String[] {ID}, MediaStore.Video.Media.TITLE + " ASC");
 
         if (cursor != null) {
             if (cursor.moveToNext()) {

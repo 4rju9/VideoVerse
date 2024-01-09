@@ -24,11 +24,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     Context context;
     ArrayList<Video> videoList;
+    boolean isFolder;
 
-    public VideoAdapter (Context context, ArrayList<Video> videoList) {
+    public VideoAdapter (Context context, ArrayList<Video> videoList, boolean isFolder) {
 
         this.context =  context;
         this.videoList = videoList;
+        this.isFolder = isFolder;
 
     }
 
@@ -52,11 +54,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 .into(holder.image);
 
         holder.root.setOnClickListener( v -> {
-
-            Intent intent = new Intent(context, PlayerActivity.class);
-            intent.putExtra("pos", position);
-            ContextCompat.startActivity(context, intent, null);
-
+            sendIntent(position, isFolder);
         });
 
     }
@@ -64,6 +62,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public int getItemCount() {
         return videoList.size();
+    }
+
+    private void sendIntent (int pos, boolean isFolder) {
+
+        PlayerActivity.POS = pos;
+        PlayerActivity.IS_FOLDER = isFolder;
+        Intent intent = new Intent(context, PlayerActivity.class);
+        ContextCompat.startActivity(context, intent, null);
+
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
