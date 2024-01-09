@@ -181,22 +181,26 @@ public class MainActivity extends AppCompatActivity {
                     try {
 
                         File file = new File(path);
-                        if (file.exists()) tempList.add(new Video(
-                                id,
-                                title,
-                                folderName,
-                                size,
-                                path,
-                                duration,
-                                Uri.fromFile(file)
-                        ));
+                        if (file.exists()) {
 
-                        if (!tempFolder.contains(folderName)) {
-                            tempFolder.add(folderName);
-                            FOLDER_LIST.add(new Folder(
-                                    folderId,
-                                    folderName
+                            tempList.add(new Video(
+                                    id,
+                                    title,
+                                    folderName,
+                                    size,
+                                    path,
+                                    duration,
+                                    Uri.fromFile(file)
                             ));
+
+                            if (!tempFolder.contains(folderName)) {
+                                tempFolder.add(folderName);
+                                FOLDER_LIST.add(new Folder(
+                                        folderId,
+                                        folderName
+                                ));
+                            }
+
                         }
 
                     } catch (Exception ignore) {}

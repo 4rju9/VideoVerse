@@ -30,7 +30,7 @@ public class FolderFragment extends Fragment {
         binding.folderRecyclerView.setItemViewCacheSize(10);
         binding.folderRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.folderRecyclerView.setAdapter(new FolderAdapter(requireContext(), MainActivity.FOLDER_LIST));
-        String size = getResources().getString(R.string.tv_total_folders) + " " + MainActivity.VIDEO_LIST.size();
+        String size = getResources().getString(R.string.tv_total_folders) + " " + MainActivity.FOLDER_LIST.size();
         binding.totalFolders.setText(size);
 
         return view;
