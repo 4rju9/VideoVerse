@@ -19,6 +19,9 @@
         android:theme="@style/Theme.VideoVerse"
         tools:targetApi="31">
         <activity
+            android:name=".PlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".FoldersActivity"
             android:exported="false" />
         <activity

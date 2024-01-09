@@ -1,16 +1,21 @@
 package app.netlify.dev4rju9.videoVerse.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
+
+import app.netlify.dev4rju9.videoVerse.PlayerActivity;
 import app.netlify.dev4rju9.videoVerse.R;
 import app.netlify.dev4rju9.videoVerse.databinding.VideoViewBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
@@ -46,6 +51,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 .apply(new RequestOptions().placeholder(R.drawable.play).centerCrop())
                 .into(holder.image);
 
+        holder.root.setOnClickListener( v -> {
+
+            Intent intent = new Intent(context, PlayerActivity.class);
+            intent.putExtra("pos", position);
+            ContextCompat.startActivity(context, intent, null);
+
+        });
+
     }
 
     @Override
@@ -57,6 +70,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         TextView title, folder, duration;
         ImageView image;
+        LinearLayoutCompat root;
 
         public VideoViewHolder(VideoViewBinding binding) {
             super(binding.getRoot());
@@ -64,6 +78,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             folder = binding.videoFolderName;
             duration = binding.videoDuration;
             image = binding.videoImage;
+            root = binding.getRoot();
         }
     }
 

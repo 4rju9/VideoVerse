@@ -23,6 +23,8 @@ import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class FoldersActivity extends AppCompatActivity {
 
+    public static ArrayList<Video> list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,7 @@ public class FoldersActivity extends AppCompatActivity {
             bar.setTitle(MainActivity.FOLDER_LIST.get(position).getFolderName());
         }
 
-        ArrayList<Video> list = getAllVideos(MainActivity.FOLDER_LIST.get(position).getId());
+        list = getAllVideos(MainActivity.FOLDER_LIST.get(position).getId());
 
         binding.videoRecyclerViewFolder.setHasFixedSize(true);
         binding.videoRecyclerViewFolder.setItemViewCacheSize(10);
