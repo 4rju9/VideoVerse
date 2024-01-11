@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 
 import java.util.ArrayList;
 
@@ -23,10 +25,11 @@ import app.netlify.dev4rju9.videoVerse.models.Video;
 public class PlayerActivity extends AppCompatActivity {
 
     public static int POS = -1;
-    public static boolean IS_FOLDER = false, REPEAT = false;
+    public static boolean IS_FOLDER = false;
     private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
+    private boolean repeat = false, isFullscreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,8 @@ public class PlayerActivity extends AppCompatActivity {
             PLAYER_LIST = MainActivity.VIDEO_LIST;
         }
         createPlayer();
+        setRepeatIcon(repeat);
+
     }
 
     @SuppressLint("PrivateResource")
@@ -73,14 +78,23 @@ public class PlayerActivity extends AppCompatActivity {
         binding.prevButton.setOnClickListener( v -> nextPrevVideo(false));
         binding.pauseButton.setOnClickListener( v -> nextPrevVideo(true));
         binding.repeatButton.setOnClickListener( v -> {
-            if (REPEAT) {
-                REPEAT = false;
+            if (repeat) {
+                repeat = false;
                 exoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF);
-                binding.repeatButton.setImageResource(com.google.android.exoplayer2.ui.R.drawable.exo_controls_repeat_off);
+                setRepeatIcon(repeat);
             } else {
-                REPEAT = true;
+                repeat = true;
                 exoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
-                binding.repeatButton.setImageResource(com.google.android.exoplayer2.ui.R.drawable.exo_controls_repeat_all);
+                setRepeatIcon(repeat);
+            }
+        });
+        binding.fullscreenButton.setOnClickListener( v -> {
+            if (isFullscreen) {
+                isFullscreen = false;
+                playInFullscreen(false);
+            } else {
+                isFullscreen = true;
+                playInFullscreen(true);
             }
         });
 
@@ -109,6 +123,17 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
 
+        playInFullscreen(isFullscreen);
+
+    }
+
+    private void setRepeatIcon (boolean repeat) {
+
+        if (repeat) binding.repeatButton.setImageResource(com.google
+                .android.exoplayer2.ui.R.drawable.exo_controls_repeat_all);
+        else binding.repeatButton.setImageResource(com.google
+                .android.exoplayer2.ui.R.drawable.exo_controls_repeat_off);
+
     }
 
     private void playVideo () {
@@ -128,7 +153,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void setPOS (boolean isIncreament) {
-        if (!REPEAT) {
+        if (!repeat) {
             if (isIncreament) {
                 if (PLAYER_LIST.size()-1 == POS) POS = 0;
                 else ++POS;
@@ -136,6 +161,18 @@ public class PlayerActivity extends AppCompatActivity {
                 if (POS == 0) POS = PLAYER_LIST.size() - 1;
                 else --POS;
             }
+        }
+    }
+
+    private void playInFullscreen (boolean enable) {
+        if (enable) {
+            binding.playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+            exoPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+            binding.fullscreenButton.setImageResource(R.drawable.fullscreen_exit_icon);
+        } else {
+            binding.playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+            exoPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT);
+            binding.fullscreenButton.setImageResource(R.drawable.fullscreen_icon);
         }
     }
 
