@@ -10,7 +10,124 @@
         android:id="@+id/playerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:use_controller="true"
+        app:controller_layout_id="@layout/custom_control_view"
         android:keepScreenOn="true"/>
+
+    <LinearLayout
+        android:id="@+id/top_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#42000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/back_icon"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_back_button"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/tv_video_name"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="50dp"
+            android:src="@drawable/more_icon"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_menu"
+            app:tint="@color/white" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/lock_open_icon"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/tv_lock"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="@id/top_controller"/>
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/exo_controls_play"
+        android:contentDescription="@string/tv_play_button"
+        app:tint="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:selectableItemBackground"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/top_controller"
+        tools:ignore="PrivateResource" />
+
+    <LinearLayout
+        android:id="@+id/bottom_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#42000000"
+        android:gravity="end|bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/exo_controls_repeat_off"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_repeat_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/exo_controls_previous"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_previous_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/exo_controls_next"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_next_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/exo_controls_fullscreen_enter"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_fullscreen_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,6 +47,10 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void createPlayer () {
 
+        // make video title movable.
+        binding.videoTitle.setText(PLAYER_LIST.get(POS).getTitle());
+        binding.videoTitle.setSelected(true);
+
         exoPlayer = new ExoPlayer.Builder(this).build();
         binding.playerView.setPlayer(exoPlayer);
 
