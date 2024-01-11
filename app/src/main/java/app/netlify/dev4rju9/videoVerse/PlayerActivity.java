@@ -5,6 +5,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ import app.netlify.dev4rju9.videoVerse.models.Video;
 public class PlayerActivity extends AppCompatActivity {
 
     public static int POS = -1;
-    public static boolean IS_FOLDER = false;
+    public static boolean IS_FOLDER = false, REPEAT = false;
     private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
@@ -54,13 +56,13 @@ public class PlayerActivity extends AppCompatActivity {
 
         if (IS_FOLDER) {
             PLAYER_LIST = FoldersActivity.LIST;
-            createPlayer();
         } else {
             PLAYER_LIST = MainActivity.VIDEO_LIST;
-            createPlayer();
         }
+        createPlayer();
     }
 
+    @SuppressLint("PrivateResource")
     private void initializeBinding () {
 
         binding.playerBackButton.setOnClickListener( v -> finish());
@@ -70,6 +72,17 @@ public class PlayerActivity extends AppCompatActivity {
         });
         binding.prevButton.setOnClickListener( v -> nextPrevVideo(false));
         binding.pauseButton.setOnClickListener( v -> nextPrevVideo(true));
+        binding.repeatButton.setOnClickListener( v -> {
+            if (REPEAT) {
+                REPEAT = false;
+                exoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF);
+                binding.repeatButton.setImageResource(com.google.android.exoplayer2.ui.R.drawable.exo_controls_repeat_off);
+            } else {
+                REPEAT = true;
+                exoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+                binding.repeatButton.setImageResource(com.google.android.exoplayer2.ui.R.drawable.exo_controls_repeat_all);
+            }
+        });
 
     }
 
@@ -87,6 +100,14 @@ public class PlayerActivity extends AppCompatActivity {
         exoPlayer.setMediaItem(mediaItem);
         exoPlayer.prepare();
         playVideo();
+
+        exoPlayer.addListener(new Player.Listener() {
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
+                Player.Listener.super.onPlaybackStateChanged(playbackState);
+                if (playbackState == Player.STATE_ENDED) nextPrevVideo(true);
+            }
+        });
 
     }
 
@@ -107,12 +128,14 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void setPOS (boolean isIncreament) {
-        if (isIncreament) {
-            if (PLAYER_LIST.size()-1 == POS) POS = 0;
-            else ++POS;
-        } else {
-            if (POS == 0) POS = PLAYER_LIST.size() - 1;
-            else --POS;
+        if (!REPEAT) {
+            if (isIncreament) {
+                if (PLAYER_LIST.size()-1 == POS) POS = 0;
+                else ++POS;
+            } else {
+                if (POS == 0) POS = PLAYER_LIST.size() - 1;
+                else --POS;
+            }
         }
     }
 
