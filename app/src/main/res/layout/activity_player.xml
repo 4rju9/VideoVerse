@@ -103,6 +103,7 @@
             tools:ignore="PrivateResource" />
 
         <ImageButton
+            android:id="@+id/prev_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/exo_controls_previous"
@@ -112,6 +113,7 @@
             tools:ignore="PrivateResource" />
 
         <ImageButton
+            android:id="@+id/pause_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/exo_controls_next"

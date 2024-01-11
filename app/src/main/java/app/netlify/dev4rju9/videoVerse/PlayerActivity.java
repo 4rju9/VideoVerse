@@ -1,8 +1,14 @@
 package app.netlify.dev4rju9.videoVerse;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
@@ -36,10 +42,11 @@ public class PlayerActivity extends AppCompatActivity {
 
         if (IS_FOLDER) {
             PLAYER_LIST = FoldersActivity.LIST;
+            createPlayer();
         } else {
             PLAYER_LIST = MainActivity.VIDEO_LIST;
+            createPlayer();
         }
-        createPlayer();
     }
 
     private void initializeBinding () {
@@ -49,6 +56,8 @@ public class PlayerActivity extends AppCompatActivity {
             if (exoPlayer.isPlaying()) pauseVideo();
             else playVideo();
         });
+        binding.prevButton.setOnClickListener( v -> nextPrevVideo(false));
+        binding.pauseButton.setOnClickListener( v -> nextPrevVideo(true));
 
     }
 
@@ -58,6 +67,7 @@ public class PlayerActivity extends AppCompatActivity {
         binding.videoTitle.setText(PLAYER_LIST.get(POS).getTitle());
         binding.videoTitle.setSelected(true);
 
+        release();
         exoPlayer = new ExoPlayer.Builder(this).build();
         binding.playerView.setPlayer(exoPlayer);
 
@@ -78,9 +88,32 @@ public class PlayerActivity extends AppCompatActivity {
         exoPlayer.pause();
     }
 
+    private void nextPrevVideo (boolean isNext) {
+        if (isNext) setPOS(true);
+        else setPOS(false);
+        createPlayer();
+    }
+
+    private void setPOS (boolean isIncreament) {
+        if (isIncreament) {
+            if (PLAYER_LIST.size()-1 == POS) POS = 0;
+            else ++POS;
+        } else {
+            if (POS == 0) POS = PLAYER_LIST.size() - 1;
+            else --POS;
+        }
+    }
+
+    private void release () {
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        exoPlayer.release();
+        release();
     }
 }
