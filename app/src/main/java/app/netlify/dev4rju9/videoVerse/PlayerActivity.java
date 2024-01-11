@@ -16,9 +16,9 @@ public class PlayerActivity extends AppCompatActivity {
 
     public static int POS = -1;
     public static boolean IS_FOLDER = false;
-    ActivityPlayerBinding binding;
+    private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
-    public static ExoPlayer exoPlayer;
+    private static ExoPlayer exoPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +28,27 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         initializePlayer();
+        initializeBinding();
 
     }
 
     private void initializePlayer () {
 
         if (IS_FOLDER) {
-            PLAYER_LIST = new ArrayList<>();
             PLAYER_LIST = FoldersActivity.LIST;
         } else {
-            PLAYER_LIST = new ArrayList<>();
             PLAYER_LIST = MainActivity.VIDEO_LIST;
         }
-
         createPlayer();
+    }
+
+    private void initializeBinding () {
+
+        binding.playerBackButton.setOnClickListener( v -> finish());
+        binding.playPauseButton.setOnClickListener( v -> {
+            if (exoPlayer.isPlaying()) pauseVideo();
+            else playVideo();
+        });
 
     }
 
@@ -56,9 +63,19 @@ public class PlayerActivity extends AppCompatActivity {
 
         MediaItem mediaItem = MediaItem.fromUri(PlayerActivity.PLAYER_LIST.get(POS).getVideoUri());
         exoPlayer.setMediaItem(mediaItem);
-        exoPlayer.setPlayWhenReady(true);
         exoPlayer.prepare();
+        playVideo();
 
+    }
+
+    private void playVideo () {
+        binding.playPauseButton.setImageResource(R.drawable.pause_icon);
+        exoPlayer.play();
+    }
+
+    private void pauseVideo () {
+        binding.playPauseButton.setImageResource(R.drawable.play_icon);
+        exoPlayer.pause();
     }
 
     @Override

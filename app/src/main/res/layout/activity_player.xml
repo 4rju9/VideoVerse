@@ -24,6 +24,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <ImageButton
+            android:id="@+id/player_back_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/back_icon"
@@ -67,9 +68,10 @@
         app:layout_constraintRight_toRightOf="@id/top_controller"/>
 
     <ImageButton
+        android:id="@+id/play_pause_button"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/exo_controls_play"
+        android:src="@drawable/play_icon"
         android:contentDescription="@string/tv_play_button"
         app:tint="@color/white"
         android:clickable="true"
@@ -78,8 +80,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/top_controller"
-        tools:ignore="PrivateResource" />
+        app:layout_constraintRight_toRightOf="@id/top_controller"/>
 
     <LinearLayout
         android:id="@+id/bottom_controller"
