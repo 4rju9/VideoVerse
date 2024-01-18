@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,7 +28,8 @@ public class PlayerActivity extends AppCompatActivity {
     private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
-    private boolean repeat = false, isFullscreen = false, uiVisibility = true, isLocked = false;
+    private boolean repeat = false, isFullscreen = false, isLocked = false;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +104,11 @@ public class PlayerActivity extends AppCompatActivity {
                 binding.playerView.setUseController(true);
                 binding.playerView.showController();
                 binding.lockButton.setImageResource(R.drawable.lock_open_icon);
-                changeVisibility(View.VISIBLE);
             } else {
                 isLocked = true;
                 binding.playerView.hideController();
                 binding.playerView.setUseController(false);
                 binding.lockButton.setImageResource(R.drawable.lock_close_icon);
-                changeVisibility(View.INVISIBLE);
             }
         });
 
@@ -191,29 +191,12 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void setVisibility () {
-
-        binding.playerView.setOnClickListener( v -> {
-            if (isLocked) return;
-            if (uiVisibility) {
-                changeVisibility(View.INVISIBLE);
-                uiVisibility = false;
-            } else {
-                changeVisibility(View.VISIBLE);
-                uiVisibility = true;
-                hideCustomUI();
-            }
-        });
-
-        hideCustomUI();
-    }
-
-    private void hideCustomUI () {
-        Runnable runnable = () -> {
-            changeVisibility(View.INVISIBLE);
-            uiVisibility = false;
+        runnable = () -> {
+            if (binding.playerView.isControllerVisible()) changeVisibility(View.VISIBLE);
+            else changeVisibility(View.INVISIBLE);
+            new Handler(Looper.getMainLooper()).postDelayed(runnable, 280);
         };
-        new Handler().postDelayed(runnable,
-                binding.playerView.getControllerShowTimeoutMs());
+        new Handler().postDelayed(runnable, 0);
     }
 
     private void changeVisibility (int visibility) {
