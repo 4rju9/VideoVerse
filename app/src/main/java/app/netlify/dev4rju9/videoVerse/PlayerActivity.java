@@ -76,7 +76,7 @@ public class PlayerActivity extends AppCompatActivity {
             else playVideo();
         });
         binding.prevButton.setOnClickListener( v -> nextPrevVideo(false));
-        binding.pauseButton.setOnClickListener( v -> nextPrevVideo(true));
+        binding.nextButton.setOnClickListener( v -> nextPrevVideo(true));
         binding.repeatButton.setOnClickListener( v -> {
             if (repeat) {
                 repeat = false;
@@ -153,14 +153,13 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void setPOS (boolean isIncreament) {
-        if (!repeat) {
-            if (isIncreament) {
-                if (PLAYER_LIST.size()-1 == POS) POS = 0;
-                else ++POS;
-            } else {
-                if (POS == 0) POS = PLAYER_LIST.size() - 1;
-                else --POS;
-            }
+        if (repeat) return;
+        if (isIncreament) {
+            if (PLAYER_LIST.size()-1 == POS) POS = 0;
+            else ++POS;
+        } else {
+            if (POS == 0) POS = PLAYER_LIST.size() - 1;
+            else --POS;
         }
     }
 
