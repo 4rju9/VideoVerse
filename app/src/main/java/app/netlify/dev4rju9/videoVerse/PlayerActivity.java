@@ -27,8 +27,7 @@ public class PlayerActivity extends AppCompatActivity {
     private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
-    private boolean repeat = false, isFullscreen = false, uiVisibility = true;
-    private Runnable runnable;
+    private boolean repeat = false, isFullscreen = false, uiVisibility = true, isLocked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +93,22 @@ public class PlayerActivity extends AppCompatActivity {
             } else {
                 isFullscreen = true;
                 playInFullscreen(true);
+            }
+        });
+
+        binding.lockButton.setOnClickListener( v -> {
+            if (isLocked) {
+                isLocked = false;
+                binding.playerView.setUseController(true);
+                binding.playerView.showController();
+                binding.lockButton.setImageResource(R.drawable.lock_open_icon);
+                changeVisibility(View.VISIBLE);
+            } else {
+                isLocked = true;
+                binding.playerView.hideController();
+                binding.playerView.setUseController(false);
+                binding.lockButton.setImageResource(R.drawable.lock_close_icon);
+                changeVisibility(View.INVISIBLE);
             }
         });
 
@@ -178,6 +193,7 @@ public class PlayerActivity extends AppCompatActivity {
     private void setVisibility () {
 
         binding.playerView.setOnClickListener( v -> {
+            if (isLocked) return;
             if (uiVisibility) {
                 changeVisibility(View.INVISIBLE);
                 uiVisibility = false;
@@ -192,11 +208,11 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void hideCustomUI () {
-        runnable = () -> {
+        Runnable runnable = () -> {
             changeVisibility(View.INVISIBLE);
             uiVisibility = false;
         };
-        new Handler().postDelayed(runnable ,
+        new Handler().postDelayed(runnable,
                 binding.playerView.getControllerShowTimeoutMs());
     }
 
@@ -204,6 +220,7 @@ public class PlayerActivity extends AppCompatActivity {
         binding.topController.setVisibility(visibility);
         binding.bottomController.setVisibility(visibility);
         binding.playPauseButton.setVisibility(visibility);
+        if (!isLocked) binding.lockButton.setVisibility(visibility);
     }
 
     private void release () {
