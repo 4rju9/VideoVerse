@@ -4,21 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
-
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-
 import java.util.ArrayList;
-
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
@@ -29,7 +27,8 @@ public class PlayerActivity extends AppCompatActivity {
     private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
-    private boolean repeat = false, isFullscreen = false;
+    private boolean repeat = false, isFullscreen = false, uiVisibility = true;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +123,7 @@ public class PlayerActivity extends AppCompatActivity {
         });
 
         playInFullscreen(isFullscreen);
+        setVisibility();
 
     }
 
@@ -173,6 +173,37 @@ public class PlayerActivity extends AppCompatActivity {
             exoPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT);
             binding.fullscreenButton.setImageResource(R.drawable.fullscreen_icon);
         }
+    }
+
+    private void setVisibility () {
+
+        binding.playerView.setOnClickListener( v -> {
+            if (uiVisibility) {
+                changeVisibility(View.INVISIBLE);
+                uiVisibility = false;
+            } else {
+                changeVisibility(View.VISIBLE);
+                uiVisibility = true;
+                hideCustomUI();
+            }
+        });
+
+        hideCustomUI();
+    }
+
+    private void hideCustomUI () {
+        runnable = () -> {
+            changeVisibility(View.INVISIBLE);
+            uiVisibility = false;
+        };
+        new Handler().postDelayed(runnable ,
+                binding.playerView.getControllerShowTimeoutMs());
+    }
+
+    private void changeVisibility (int visibility) {
+        binding.topController.setVisibility(visibility);
+        binding.bottomController.setVisibility(visibility);
+        binding.playPauseButton.setVisibility(visibility);
     }
 
     private void release () {
