@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/black"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,7 +18,7 @@
             android:text="@string/audio_track"
             app:icon="@drawable/audio_icon"
             app:iconGravity="top"
-            android:background="@android:color/transparent"
+            android:background="@drawable/ripple_effect"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -29,7 +28,7 @@
             android:text="@string/subtitles"
             app:icon="@drawable/subtitles_icon"
             app:iconGravity="top"
-            android:background="@android:color/transparent"
+            android:background="@drawable/ripple_effect"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -39,7 +38,7 @@
             android:text="@string/booster"
             app:icon="@drawable/booster_icon"
             app:iconGravity="top"
-            android:background="@android:color/transparent"
+            android:background="@drawable/ripple_effect"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
@@ -56,7 +55,7 @@
             android:text="@string/speed"
             app:icon="@drawable/speed_icon"
             app:iconGravity="top"
-            android:background="@android:color/transparent"
+            android:background="@drawable/ripple_effect"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -66,7 +65,7 @@
             android:text="@string/sleep_timer"
             app:icon="@drawable/timer_icon"
             app:iconGravity="top"
-            android:background="@android:color/transparent"
+            android:background="@drawable/ripple_effect"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -76,7 +75,7 @@
             android:text="@string/pip_mode"
             app:icon="@drawable/pip_icon"
             app:iconGravity="top"
-            android:background="@android:color/transparent"
+            android:background="@drawable/ripple_effect"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
