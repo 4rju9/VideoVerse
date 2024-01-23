@@ -19,10 +19,12 @@ import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import java.util.ArrayList;
+import java.util.Locale;
+
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.MoreFeaturesBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
@@ -36,6 +38,7 @@ public class PlayerActivity extends AppCompatActivity {
     private static ExoPlayer exoPlayer;
     private boolean repeat = false, isFullscreen = false, isLocked = false;
     private Runnable runnable;
+    private DefaultTrackSelector trackSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +133,29 @@ public class PlayerActivity extends AppCompatActivity {
 
             featuresBinding.audioTrack.setOnClickListener( view -> {
                 dialog.dismiss();
+                pauseVideo();
+
+                ArrayList<String> audioTrack = new ArrayList<>();
+                int length = exoPlayer.getCurrentTrackGroups().length;
+                for (int i=0; i<length; i++) {
+                    if (exoPlayer.getCurrentTrackGroups().get(i).getFormat(0)
+                            .selectionFlags == C.SELECTION_FLAG_DEFAULT) {
+                        String lang = new Locale(exoPlayer.getCurrentTrackGroups()
+                                        .get(i).getFormat(0).language).getDisplayLanguage();
+                        if (!lang.equals("und")) audioTrack.add(lang);
+                    }
+                }
+
                 new MaterialAlertDialogBuilder(this, R.style.alertDialog)
                         .setTitle("Select Language")
                         .setOnCancelListener( d -> playVideo())
-                        .setBackground(new ColorDrawable(0xB300BEF7)).create().show();
+                        .setBackground(new ColorDrawable(0xB300BEF7))
+                        .setItems(audioTrack.toArray(new String[0]),
+                                (dial, pos) -> trackSelector.setParameters(
+                                        trackSelector.buildUponParameters()
+                                                .setPreferredAudioLanguage(audioTrack.get(pos))
+                                ))
+                        .create().show();
             });
 
         });
@@ -147,7 +169,10 @@ public class PlayerActivity extends AppCompatActivity {
         binding.videoTitle.setSelected(true);
 
         release();
-        exoPlayer = new ExoPlayer.Builder(this).build();
+        trackSelector = new DefaultTrackSelector(this);
+        exoPlayer = new ExoPlayer.Builder(this)
+                .setTrackSelector(trackSelector)
+                .build();
         binding.playerView.setPlayer(exoPlayer);
 
         MediaItem mediaItem = MediaItem.fromUri(PlayerActivity.PLAYER_LIST.get(POS).getVideoUri());
@@ -188,14 +213,13 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void nextPrevVideo (boolean isNext) {
-        if (isNext) setPOS(true);
-        else setPOS(false);
+        setPOS(isNext);
         createPlayer();
     }
 
-    private void setPOS (boolean isIncreament) {
+    private void setPOS (boolean isIncrement) {
         if (repeat) return;
-        if (isIncreament) {
+        if (isIncrement) {
             if (PLAYER_LIST.size()-1 == POS) POS = 0;
             else ++POS;
         } else {
