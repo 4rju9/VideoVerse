@@ -1,14 +1,17 @@
 package app.netlify.dev4rju9.videoVerse;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import android.annotation.SuppressLint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,9 +20,11 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
-import app.netlify.dev4rju9.videoVerse.databinding.CustomControlViewBinding;
+import app.netlify.dev4rju9.videoVerse.databinding.MoreFeaturesBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class PlayerActivity extends AppCompatActivity {
@@ -111,6 +116,17 @@ public class PlayerActivity extends AppCompatActivity {
                 binding.playerView.setUseController(false);
                 binding.lockButton.setImageResource(R.drawable.lock_close_icon);
             }
+        });
+
+        binding.menuButton.setOnClickListener( v -> {
+            pauseVideo();
+            View customDialog = LayoutInflater.from(this).inflate(R.layout.more_features, binding.getRoot(), false);
+            MoreFeaturesBinding binding = MoreFeaturesBinding.bind(customDialog);
+            AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                    .setView(customDialog)
+                    .setOnCancelListener( d -> playVideo())
+                    .setBackground(new ColorDrawable(0xCC00BEF7)).create();
+            dialog.show();
         });
 
     }
