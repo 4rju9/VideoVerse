@@ -121,12 +121,21 @@ public class PlayerActivity extends AppCompatActivity {
         binding.menuButton.setOnClickListener( v -> {
             pauseVideo();
             View customDialog = LayoutInflater.from(this).inflate(R.layout.more_features, binding.getRoot(), false);
-            MoreFeaturesBinding binding = MoreFeaturesBinding.bind(customDialog);
+            MoreFeaturesBinding featuresBinding = MoreFeaturesBinding.bind(customDialog);
             AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                     .setView(customDialog)
                     .setOnCancelListener( d -> playVideo())
-                    .setBackground(new ColorDrawable(0xCC00BEF7)).create();
+                    .setBackground(new ColorDrawable(0xB300BEF7)).create();
             dialog.show();
+
+            featuresBinding.audioTrack.setOnClickListener( view -> {
+                dialog.dismiss();
+                new MaterialAlertDialogBuilder(this, R.style.alertDialog)
+                        .setTitle("Select Language")
+                        .setOnCancelListener( d -> playVideo())
+                        .setBackground(new ColorDrawable(0xB300BEF7)).create().show();
+            });
+
         });
 
     }

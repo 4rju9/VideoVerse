@@ -12,13 +12,16 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/audioTrack"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="@string/audio_track"
             app:icon="@drawable/audio_icon"
             app:iconGravity="top"
-            android:background="@drawable/ripple_effect"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -28,7 +31,9 @@
             android:text="@string/subtitles"
             app:icon="@drawable/subtitles_icon"
             app:iconGravity="top"
-            android:background="@drawable/ripple_effect"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -38,7 +43,9 @@
             android:text="@string/booster"
             app:icon="@drawable/booster_icon"
             app:iconGravity="top"
-            android:background="@drawable/ripple_effect"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
@@ -55,7 +62,9 @@
             android:text="@string/speed"
             app:icon="@drawable/speed_icon"
             app:iconGravity="top"
-            android:background="@drawable/ripple_effect"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -65,7 +74,9 @@
             android:text="@string/sleep_timer"
             app:icon="@drawable/timer_icon"
             app:iconGravity="top"
-            android:background="@drawable/ripple_effect"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <com.google.android.material.button.MaterialButton
@@ -75,7 +86,9 @@
             android:text="@string/pip_mode"
             app:icon="@drawable/pip_icon"
             app:iconGravity="top"
-            android:background="@drawable/ripple_effect"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
