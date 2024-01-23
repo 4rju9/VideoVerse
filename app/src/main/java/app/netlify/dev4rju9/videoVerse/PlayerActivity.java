@@ -19,6 +19,7 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import java.util.ArrayList;
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
+import app.netlify.dev4rju9.videoVerse.databinding.CustomControlViewBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class PlayerActivity extends AppCompatActivity {

@@ -20,10 +20,20 @@
     <string name="tv_semi_colon">:</string>
     <string name="tv_lock">Lock Button</string>
     <string name="tv_back_button">Back Button</string>
+
+    // For Custom Controls Additional
     <string name="tv_menu">Menu</string>
     <string name="tv_repeat_button">Repeat Button</string>
     <string name="tv_previous_button">Previous Button</string>
     <string name="tv_next_button">Next Button</string>
     <string name="tv_fullscreen_button">Fullscreen Button</string>
     <string name="tv_play_button">Play Button</string>
+
+    // For Menu
+    <string name="audio_track">Audio Track</string>
+    <string name="subtitles">Subtitles</string>
+    <string name="booster">Booster</string>
+    <string name="speed">Speed</string>
+    <string name="sleep_timer">Sleep Timer</string>
+    <string name="pip_mode">PIP Mode</string>
 </resources>
