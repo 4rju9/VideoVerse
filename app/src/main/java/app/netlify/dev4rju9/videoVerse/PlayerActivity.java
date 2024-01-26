@@ -45,6 +45,7 @@ public class PlayerActivity extends AppCompatActivity {
     private boolean repeat = false, isFullscreen = false, isLocked = false;
     private Runnable runnable;
     private DefaultTrackSelector trackSelector;
+    private static LoudnessEnhancer loudnessEnhancer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,10 +186,20 @@ public class PlayerActivity extends AppCompatActivity {
                         .setView(boosterView)
                         .setOnCancelListener( d -> playVideo())
                         .setPositiveButton("OK", (self, pos) -> {
+                            loudnessEnhancer.setTargetGain(
+                                    boosterBinding.boosterBar.getProgress() * 100);
                             self.dismiss();
                         })
                         .setBackground(new ColorDrawable(0xB300BEF7)).create();
                 dialog.show();
+
+                int loudness = (int)loudnessEnhancer.getTargetGain();
+                boosterBinding.boosterBar.setProgress(loudness/100);
+                boosterBinding.boosterText.setText("Audio Boost\n\n" + (loudness/10)  + "%");
+                boosterBinding.boosterBar.setOnProgressChangeListener( integer -> {
+                    boosterBinding.boosterText.setText("Audio Boost\n\n" + (integer*10) + "%");
+                    return null;
+                });
 
                 playVideo();
             });
@@ -225,6 +236,8 @@ public class PlayerActivity extends AppCompatActivity {
 
         playInFullscreen(isFullscreen);
         setVisibility();
+        loudnessEnhancer = new LoudnessEnhancer(exoPlayer.getAudioSessionId());
+        loudnessEnhancer.setEnabled(true);
 
     }
 
