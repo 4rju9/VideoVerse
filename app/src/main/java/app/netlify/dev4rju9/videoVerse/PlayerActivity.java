@@ -1,17 +1,28 @@
 package app.netlify.dev4rju9.videoVerse;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.AppOpsManagerCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import android.annotation.SuppressLint;
+import android.app.AppOpsManager;
+import android.app.PictureInPictureParams;
+import android.app.PictureInPictureUiState;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.media.audiofx.LoudnessEnhancer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -87,7 +98,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
-    @SuppressLint({"PrivateResource", "SetTextI18n"})
+    @SuppressLint({"PrivateResource", "SetTextI18n", "ServiceCast"})
     private void initializeBinding () {
 
         binding.playerBackButton.setOnClickListener( v -> finish());
@@ -277,6 +288,29 @@ public class PlayerActivity extends AppCompatActivity {
                     sleepBinding.speedText.setText(sleep.get() + " Min");
                 });
 
+            });
+
+            featuresBinding.pipMode.setOnClickListener( view -> {
+                AppOpsManager appOps = (AppOpsManager) this.getSystemService(Context.APP_OPS_SERVICE);
+                boolean status;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    status = appOps.checkOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE,
+                            Process.myUid(), getPackageName()) == AppOpsManager.MODE_ALLOWED;
+                    if (status) {
+                        this.enterPictureInPictureMode(new PictureInPictureParams.Builder().build());
+                        mainDialog.dismiss();
+                        binding.playerView.hideController();
+                        playVideo();
+                    } else {
+                        Intent intent = new Intent("android.settings.PICTURE_IN_PICTURE_SETTINGS",
+                                Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(this, "Feature not supported!", Toast.LENGTH_SHORT).show();
+                    mainDialog.dismiss();
+                    playVideo();
+                }
             });
 
         });

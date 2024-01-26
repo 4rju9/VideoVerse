@@ -21,7 +21,10 @@
         <activity
             android:name=".PlayerActivity"
             android:exported="false"
-            android:configChanges="uiMode|orientation|screenSize|screenLayout"/>
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:launchMode="singleTask"
+            android:configChanges="uiMode|orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"/>
         <activity
             android:name=".FoldersActivity"
             android:exported="false" />
