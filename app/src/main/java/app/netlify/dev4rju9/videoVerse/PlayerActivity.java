@@ -27,14 +27,15 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.BoosterBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.MoreFeaturesBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.PlaybackSpeedDialogBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -48,6 +49,7 @@ public class PlayerActivity extends AppCompatActivity {
     private DefaultTrackSelector trackSelector;
     private static LoudnessEnhancer loudnessEnhancer;
     private static float speed = 1.0f;
+    private static Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,6 +232,49 @@ public class PlayerActivity extends AppCompatActivity {
                 speedBinding.speedPlus.setOnClickListener( plusView -> {
                     changeSpeed(true);
                     speedBinding.speedText.setText(speed + "X");
+                });
+
+            });
+
+            featuresBinding.sleepTimer.setOnClickListener( view -> {
+                mainDialog.dismiss();
+                if (timer != null) {
+                    Toast.makeText(this, "Timer is already running!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                AtomicInteger sleep = new AtomicInteger(15);
+                View sleepView = LayoutInflater.from(this).inflate(R.layout.playback_speed_dialog, binding.getRoot(), false);
+                PlaybackSpeedDialogBinding sleepBinding = PlaybackSpeedDialogBinding.bind(sleepView);
+                AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                        .setView(sleepView)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", (self, pos) -> {
+                            timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    moveTaskToBack(true);
+                                    System.exit(1);
+                                }
+                            }, (long)(sleep.get() * 60 * 1000L));
+                            self.dismiss();
+                        })
+                        .setBackground(new ColorDrawable(0xB300BEF7)).create();
+                dialog.show();
+
+                sleepBinding.speedText.setText(sleep.get() + " Min");
+
+                sleepBinding.speedMinus.setOnClickListener( minusView -> {
+                    if (sleep.get() <= 15) return;
+                    sleep.set(sleep.get() - 15);
+                    sleepBinding.speedText.setText(sleep.get() + " Min");
+                });
+
+                sleepBinding.speedPlus.setOnClickListener( plusView -> {
+                    if (sleep.get() >= 120) return;
+                    sleep.set(sleep.get() + 15);
+                    sleepBinding.speedText.setText(sleep.get() + " Min");
                 });
 
             });
