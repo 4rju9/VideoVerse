@@ -47,6 +47,7 @@ public class PlayerActivity extends AppCompatActivity {
     private Runnable runnable;
     private DefaultTrackSelector trackSelector;
     private static LoudnessEnhancer loudnessEnhancer;
+    private static float speed = 1.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,17 +208,30 @@ public class PlayerActivity extends AppCompatActivity {
 
             featuresBinding.playBackSpeed.setOnClickListener( view -> {
                 mainDialog.dismiss();
+                playVideo();
                 View speedView = LayoutInflater.from(this).inflate(R.layout.playback_speed_dialog, binding.getRoot(), false);
                 PlaybackSpeedDialogBinding speedBinding = PlaybackSpeedDialogBinding.bind(speedView);
                 AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                         .setView(speedView)
                         .setCancelable(false)
                         .setPositiveButton("OK", (self, pos) -> {
-                            playVideo();
                             self.dismiss();
                         })
                         .setBackground(new ColorDrawable(0xB300BEF7)).create();
                 dialog.show();
+
+                speedBinding.speedText.setText(speed + "X");
+
+                speedBinding.speedMinus.setOnClickListener( minusView -> {
+                    changeSpeed(false);
+                    speedBinding.speedText.setText(speed + "X");
+                });
+
+                speedBinding.speedPlus.setOnClickListener( plusView -> {
+                    changeSpeed(true);
+                    speedBinding.speedText.setText(speed + "X");
+                });
+
             });
 
         });
@@ -231,6 +245,7 @@ public class PlayerActivity extends AppCompatActivity {
         binding.videoTitle.setSelected(true);
 
         release();
+        speed = 1.0f;
         trackSelector = new DefaultTrackSelector(this);
         exoPlayer = new ExoPlayer.Builder(this)
                 .setTrackSelector(trackSelector)
@@ -325,6 +340,17 @@ public class PlayerActivity extends AppCompatActivity {
             exoPlayer.release();
             exoPlayer = null;
         }
+    }
+
+    private void changeSpeed (boolean isIncrement) {
+        if (isIncrement) {
+            if (speed >= 3.0f) return;
+            speed += 0.25f;
+        } else {
+            if (speed <= 0.25f) return;
+            speed -= 0.25f;
+        }
+        exoPlayer.setPlaybackSpeed(speed);
     }
 
     @Override
