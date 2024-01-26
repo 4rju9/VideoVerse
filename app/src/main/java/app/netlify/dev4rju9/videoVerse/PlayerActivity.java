@@ -3,17 +3,14 @@ package app.netlify.dev4rju9.videoVerse;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.AppOpsManagerCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import android.annotation.SuppressLint;
 import android.app.AppOpsManager;
 import android.app.PictureInPictureParams;
-import android.app.PictureInPictureUiState;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.media.audiofx.LoudnessEnhancer;
@@ -28,7 +25,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
@@ -41,7 +37,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.BoosterBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.MoreFeaturesBinding;
@@ -61,6 +56,7 @@ public class PlayerActivity extends AppCompatActivity {
     private static LoudnessEnhancer loudnessEnhancer;
     private static float speed = 1.0f;
     private static Timer timer;
+    public static int pipStatus = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -301,6 +297,7 @@ public class PlayerActivity extends AppCompatActivity {
                         mainDialog.dismiss();
                         binding.playerView.hideController();
                         playVideo();
+                        pipStatus = 0;
                     } else {
                         Intent intent = new Intent("android.settings.PICTURE_IN_PICTURE_SETTINGS",
                                 Uri.parse("package:" + getPackageName()));
@@ -430,6 +427,15 @@ public class PlayerActivity extends AppCompatActivity {
             speed -= 0.25f;
         }
         exoPlayer.setPlaybackSpeed(speed);
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, @NonNull Configuration newConfig) {
+        if (pipStatus != 0) {
+            finish();
+            Intent intent = new Intent(this, PlayerActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
