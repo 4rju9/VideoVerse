@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
+import android.media.audiofx.LoudnessEnhancer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,8 +29,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
+import app.netlify.dev4rju9.videoVerse.databinding.BoosterBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.MoreFeaturesBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -78,7 +82,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
-    @SuppressLint("PrivateResource")
+    @SuppressLint({"PrivateResource", "SetTextI18n"})
     private void initializeBinding () {
 
         binding.playerBackButton.setOnClickListener( v -> finish());
@@ -170,6 +174,22 @@ public class PlayerActivity extends AppCompatActivity {
                 if (!isSubtitles) message = "Subtitles off";
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
                 mainDialog.dismiss();
+                playVideo();
+            });
+
+            featuresBinding.booster.setOnClickListener( view -> {
+                mainDialog.dismiss();
+                View boosterView = LayoutInflater.from(this).inflate(R.layout.booster, binding.getRoot(), false);
+                BoosterBinding boosterBinding = BoosterBinding.bind(boosterView);
+                AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                        .setView(boosterView)
+                        .setOnCancelListener( d -> playVideo())
+                        .setPositiveButton("OK", (self, pos) -> {
+                            self.dismiss();
+                        })
+                        .setBackground(new ColorDrawable(0xB300BEF7)).create();
+                dialog.show();
+
                 playVideo();
             });
 
