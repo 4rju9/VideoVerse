@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
@@ -123,16 +125,16 @@ public class PlayerActivity extends AppCompatActivity {
 
         binding.menuButton.setOnClickListener( v -> {
             pauseVideo();
-            View customDialog = LayoutInflater.from(this).inflate(R.layout.more_features, binding.getRoot(), false);
-            MoreFeaturesBinding featuresBinding = MoreFeaturesBinding.bind(customDialog);
-            AlertDialog dialog = new MaterialAlertDialogBuilder(this)
-                    .setView(customDialog)
+            View moreFeaturesView = LayoutInflater.from(this).inflate(R.layout.more_features, binding.getRoot(), false);
+            MoreFeaturesBinding featuresBinding = MoreFeaturesBinding.bind(moreFeaturesView);
+            AlertDialog mainDialog = new MaterialAlertDialogBuilder(this)
+                    .setView(moreFeaturesView)
                     .setOnCancelListener( d -> playVideo())
                     .setBackground(new ColorDrawable(0xB300BEF7)).create();
-            dialog.show();
+            mainDialog.show();
 
             featuresBinding.audioTrack.setOnClickListener( view -> {
-                dialog.dismiss();
+                mainDialog.dismiss();
                 pauseVideo();
 
                 ArrayList<String> audioTrack = new ArrayList<>();
@@ -156,6 +158,19 @@ public class PlayerActivity extends AppCompatActivity {
                                                 .setPreferredAudioLanguage(audioTrack.get(pos))
                                 ))
                         .create().show();
+            });
+
+            featuresBinding.subtitles.setOnClickListener( view -> {
+                boolean isSubtitles = trackSelector.getParameters()
+                        .getRendererDisabled(C.TRACK_TYPE_VIDEO);
+                trackSelector.setParameters(
+                            new DefaultTrackSelector.Parameters.Builder(this)
+                                    .setRendererDisabled(C.TRACK_TYPE_VIDEO, !isSubtitles).build());
+                String message = "Subtitles on";
+                if (!isSubtitles) message = "Subtitles off";
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                mainDialog.dismiss();
+                playVideo();
             });
 
         });
