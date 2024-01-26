@@ -31,6 +31,7 @@ import java.util.Locale;
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityPlayerBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.BoosterBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.MoreFeaturesBinding;
+import app.netlify.dev4rju9.videoVerse.databinding.PlaybackSpeedDialogBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -188,6 +189,7 @@ public class PlayerActivity extends AppCompatActivity {
                         .setPositiveButton("OK", (self, pos) -> {
                             loudnessEnhancer.setTargetGain(
                                     boosterBinding.boosterBar.getProgress() * 100);
+                            playVideo();
                             self.dismiss();
                         })
                         .setBackground(new ColorDrawable(0xB300BEF7)).create();
@@ -201,7 +203,21 @@ public class PlayerActivity extends AppCompatActivity {
                     return null;
                 });
 
-                playVideo();
+            });
+
+            featuresBinding.playBackSpeed.setOnClickListener( view -> {
+                mainDialog.dismiss();
+                View speedView = LayoutInflater.from(this).inflate(R.layout.playback_speed_dialog, binding.getRoot(), false);
+                PlaybackSpeedDialogBinding speedBinding = PlaybackSpeedDialogBinding.bind(speedView);
+                AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                        .setView(speedView)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", (self, pos) -> {
+                            playVideo();
+                            self.dismiss();
+                        })
+                        .setBackground(new ColorDrawable(0xB300BEF7)).create();
+                dialog.show();
             });
 
         });
