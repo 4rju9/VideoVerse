@@ -80,6 +80,20 @@ public class PlayerActivity extends AppCompatActivity {
         initializePlayer();
         initializeBinding();
 
+        binding.rewindFrame.setOnClickListener(new DoubleClickListener(() -> {
+            binding.playerView.showController();
+            binding.rewindButton.setVisibility(View.VISIBLE);
+            long position = exoPlayer.getCurrentPosition() - 10000;
+            exoPlayer.seekTo(Math.max(0, position));
+        }));
+        binding.forwardFrame.setOnClickListener(new DoubleClickListener(() -> {
+            binding.playerView.showController();
+            binding.forwardButton.setVisibility(View.VISIBLE);
+            long position = exoPlayer.getCurrentPosition() + 10000;
+            long max = exoPlayer.getDuration();
+            exoPlayer.seekTo(Math.min(position, max));
+        }));
+
     }
 
     private void initializePlayer () {
@@ -409,6 +423,8 @@ public class PlayerActivity extends AppCompatActivity {
         binding.bottomController.setVisibility(visibility);
         binding.playPauseButton.setVisibility(visibility);
         if (!isLocked) binding.lockButton.setVisibility(visibility);
+        binding.rewindButton.setVisibility(View.GONE);
+        binding.forwardButton.setVisibility(View.GONE);
     }
 
     private void release () {
@@ -431,10 +447,13 @@ public class PlayerActivity extends AppCompatActivity {
 
     @Override
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, @NonNull Configuration newConfig) {
-        if (pipStatus != 0) {
-            finish();
-            Intent intent = new Intent(this, PlayerActivity.class);
-            startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
+            if (pipStatus != 0) {
+                finish();
+                Intent intent = new Intent(this, PlayerActivity.class);
+                startActivity(intent);
+            }
         }
     }
 

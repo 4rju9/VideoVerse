@@ -70,20 +70,68 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="@id/top_controller"/>
 
-    <ImageButton
-        android:id="@+id/play_pause_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/play_icon"
-        android:contentDescription="@string/tv_play_button"
-        app:tint="@color/white"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?android:selectableItemBackground"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/top_controller"/>
+        app:layout_constraintRight_toRightOf="parent">
+
+        <FrameLayout
+            android:id="@+id/rewind_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/rewind_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/rewind_icon"
+                android:contentDescription="@string/tv_play_button"
+                app:tint="@color/white"
+                android:clickable="false"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/play_pause_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/play_icon"
+            android:contentDescription="@string/tv_play_button"
+            app:tint="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground" />
+
+        <FrameLayout
+            android:id="@+id/forward_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/forward_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/forward_icon"
+                android:contentDescription="@string/tv_play_button"
+                app:tint="@color/white"
+                android:clickable="false"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bottom_controller"
