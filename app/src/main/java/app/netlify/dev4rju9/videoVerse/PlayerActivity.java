@@ -278,7 +278,7 @@ public class PlayerActivity extends AppCompatActivity {
                                     moveTaskToBack(true);
                                     System.exit(1);
                                 }
-                            }, (long)(sleep.get() * 60 * 1000L));
+                            }, sleep.get() * 60 * 1000L);
                             self.dismiss();
                         })
                         .setBackground(new ColorDrawable(0xB300BEF7)).create();
