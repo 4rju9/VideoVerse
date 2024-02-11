@@ -16,10 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import app.netlify.dev4rju9.videoVerse.adapters.VideoAdapter;
 import app.netlify.dev4rju9.videoVerse.databinding.FragmentVideoBinding;
+import app.netlify.dev4rju9.videoVerse.models.Video;
 
 public class VideoFragment extends Fragment {
+
+    private VideoAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +43,8 @@ public class VideoFragment extends Fragment {
         binding.videoRecyclerView.setHasFixedSize(true);
         binding.videoRecyclerView.setItemViewCacheSize(10);
         binding.videoRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.videoRecyclerView.setAdapter(new VideoAdapter(requireContext(), MainActivity.VIDEO_LIST, false));
+        adapter = new VideoAdapter(requireContext(), MainActivity.VIDEO_LIST, 2);
+        binding.videoRecyclerView.setAdapter(adapter);
         String size = getResources().getString(R.string.tv_total_videos) + " " + MainActivity.VIDEO_LIST.size();
         binding.totalVideos.setText(size);
 
@@ -57,7 +63,18 @@ public class VideoFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(requireContext(), newText, Toast.LENGTH_SHORT).show();
+
+                if (newText != null) {
+                    MainActivity.SEARCHED_LIST = new ArrayList<>();
+                    for (Video video : MainActivity.VIDEO_LIST) {
+                        if (video.getTitle().toLowerCase()
+                                .contains(newText.toLowerCase())) MainActivity.SEARCHED_LIST
+                                .add(video);
+                    }
+                    MainActivity.isSearched = true;
+                    adapter.updateList(MainActivity.SEARCHED_LIST);
+                }
+
                 return true;
             }
         });

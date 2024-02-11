@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     public static ArrayList<Video> VIDEO_LIST;
     public static ArrayList<Folder> FOLDER_LIST;
+    public static ArrayList<Video> SEARCHED_LIST;
+    public static boolean isSearched = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

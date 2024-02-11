@@ -1,5 +1,6 @@
 package app.netlify.dev4rju9.videoVerse.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateUtils;
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
+import app.netlify.dev4rju9.videoVerse.MainActivity;
 import app.netlify.dev4rju9.videoVerse.PlayerActivity;
 import app.netlify.dev4rju9.videoVerse.R;
 import app.netlify.dev4rju9.videoVerse.databinding.VideoViewBinding;
@@ -24,13 +26,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     Context context;
     ArrayList<Video> videoList;
-    boolean isFolder;
+    int CODE;
 
-    public VideoAdapter (Context context, ArrayList<Video> videoList, boolean isFolder) {
+    public VideoAdapter (Context context, ArrayList<Video> videoList, int CODE) {
 
         this.context =  context;
         this.videoList = videoList;
-        this.isFolder = isFolder;
+        this.CODE = CODE;
 
     }
 
@@ -54,9 +56,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 .into(holder.image);
 
         holder.root.setOnClickListener( v -> {
-            if (isFolder) PlayerActivity.pipStatus = 1;
-            else PlayerActivity.pipStatus = 2;
-            sendIntent(position, isFolder);
+            if (MainActivity.isSearched) CODE = 3;
+            PlayerActivity.pipStatus = CODE;
+            sendIntent(position, CODE);
         });
 
     }
@@ -66,13 +68,20 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return videoList.size();
     }
 
-    private void sendIntent (int pos, boolean isFolder) {
+    private void sendIntent (int pos, int CODE) {
 
         PlayerActivity.POS = pos;
-        PlayerActivity.IS_FOLDER = isFolder;
+        PlayerActivity.LIST_CODE = CODE;
         Intent intent = new Intent(context, PlayerActivity.class);
         ContextCompat.startActivity(context, intent, null);
 
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateList (ArrayList<Video> newList) {
+        videoList = new ArrayList<>();
+        videoList.addAll(newList);
+        notifyDataSetChanged();
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {

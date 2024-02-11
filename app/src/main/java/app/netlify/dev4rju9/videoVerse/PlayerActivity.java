@@ -46,7 +46,7 @@ import app.netlify.dev4rju9.videoVerse.models.Video;
 public class PlayerActivity extends AppCompatActivity {
 
     public static int POS = -1;
-    public static boolean IS_FOLDER = false;
+    public static int LIST_CODE = 0;
     private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
@@ -98,10 +98,12 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void initializePlayer () {
 
-        if (IS_FOLDER) {
+        if (LIST_CODE == 1) {
             PLAYER_LIST = FoldersActivity.LIST;
-        } else {
+        } else if (LIST_CODE == 2) {
             PLAYER_LIST = MainActivity.VIDEO_LIST;
+        } else if (LIST_CODE == 3) {
+            PLAYER_LIST = MainActivity.SEARCHED_LIST;
         }
         createPlayer();
         setRepeatIcon(repeat);
@@ -452,6 +454,7 @@ public class PlayerActivity extends AppCompatActivity {
             if (pipStatus != 0) {
                 finish();
                 Intent intent = new Intent(this, PlayerActivity.class);
+                PlayerActivity.LIST_CODE = pipStatus;
                 startActivity(intent);
             }
         }

@@ -48,7 +48,7 @@ public class FoldersActivity extends AppCompatActivity {
         binding.videoRecyclerViewFolder.setHasFixedSize(true);
         binding.videoRecyclerViewFolder.setItemViewCacheSize(10);
         binding.videoRecyclerViewFolder.setLayoutManager(new LinearLayoutManager(this));
-        binding.videoRecyclerViewFolder.setAdapter(new VideoAdapter(this, LIST, true));
+        binding.videoRecyclerViewFolder.setAdapter(new VideoAdapter(this, LIST, 1));
         String size = getResources().getString(R.string.tv_total_videos) + " " + LIST.size();
         binding.totalVideosFolder.setText(size);
 
