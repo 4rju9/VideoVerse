@@ -11,6 +11,7 @@ import android.app.AppOpsManager;
 import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.media.audiofx.LoudnessEnhancer;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -57,6 +59,7 @@ public class PlayerActivity extends AppCompatActivity {
     private static float speed = 1.0f;
     private static Timer timer;
     public static int pipStatus = 0;
+    private long currentPosition = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +107,28 @@ public class PlayerActivity extends AppCompatActivity {
             PLAYER_LIST = MainActivity.VIDEO_LIST;
         } else if (LIST_CODE == 3) {
             PLAYER_LIST = MainActivity.SEARCHED_LIST;
+        } else if (LIST_CODE == 4) {
+            PLAYER_LIST = MainActivity.VIDEO_LIST;
         }
         createPlayer();
         setRepeatIcon(repeat);
 
+    }
+
+    private void initStatus (int mode) {
+        String ID = PLAYER_LIST.get(POS).getId();
+        SharedPreferences preferences = getSharedPreferences(ID, Context.MODE_PRIVATE);
+
+        if (mode == 1) {
+            currentPosition = preferences.getLong("currentPosition", 0L);
+        } else if (mode == 2) {
+            currentPosition = exoPlayer.getCurrentPosition();
+            if (currentPosition >= exoPlayer.getDuration() - 10000) return;
+            preferences.edit()
+                    .putLong("currentPosition", currentPosition).apply();
+        } else {
+            preferences.edit().remove("currentPosition").apply();
+        }
     }
 
     @SuppressLint({"PrivateResource", "SetTextI18n", "ServiceCast"})
@@ -332,6 +353,8 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void createPlayer () {
 
+        initStatus(1);
+
         // make video title movable.
         binding.videoTitle.setText(PLAYER_LIST.get(POS).getTitle());
         binding.videoTitle.setSelected(true);
@@ -346,6 +369,7 @@ public class PlayerActivity extends AppCompatActivity {
 
         MediaItem mediaItem = MediaItem.fromUri(PlayerActivity.PLAYER_LIST.get(POS).getVideoUri());
         exoPlayer.setMediaItem(mediaItem);
+        exoPlayer.seekTo(currentPosition);
         exoPlayer.prepare();
         playVideo();
 
@@ -353,7 +377,10 @@ public class PlayerActivity extends AppCompatActivity {
             @Override
             public void onPlaybackStateChanged(int playbackState) {
                 Player.Listener.super.onPlaybackStateChanged(playbackState);
-                if (playbackState == Player.STATE_ENDED) nextPrevVideo(true);
+                if (playbackState == Player.STATE_ENDED) {
+                    initStatus(3);
+                    nextPrevVideo(true);
+                };
             }
         });
 
@@ -384,6 +411,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void nextPrevVideo (boolean isNext) {
+        initStatus(2);
         setPOS(isNext);
         createPlayer();
     }
@@ -463,6 +491,7 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        initStatus(2);
         release();
     }
 }

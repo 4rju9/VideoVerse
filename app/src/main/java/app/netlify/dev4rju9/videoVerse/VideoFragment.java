@@ -1,5 +1,6 @@
 package app.netlify.dev4rju9.videoVerse;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import app.netlify.dev4rju9.videoVerse.models.Video;
 public class VideoFragment extends Fragment {
 
     private VideoAdapter adapter;
+    private FragmentVideoBinding binding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class VideoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_video, container, false);
 
-        FragmentVideoBinding binding = FragmentVideoBinding.bind(view);
+        binding = FragmentVideoBinding.bind(view);
 
         binding.videoRecyclerView.setHasFixedSize(true);
         binding.videoRecyclerView.setItemViewCacheSize(10);
@@ -47,6 +49,12 @@ public class VideoFragment extends Fragment {
         binding.videoRecyclerView.setAdapter(adapter);
         String size = getResources().getString(R.string.tv_total_videos) + " " + MainActivity.VIDEO_LIST.size();
         binding.totalVideos.setText(size);
+
+        binding.nowPlayingIcon.setOnClickListener( v -> {
+            PlayerActivity.LIST_CODE = 4;
+            Intent intent = new Intent(requireContext(), PlayerActivity.class);
+            startActivity(intent);
+        });
 
         return view;
     }
@@ -80,5 +88,11 @@ public class VideoFragment extends Fragment {
         });
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (PlayerActivity.POS != -1) binding.nowPlayingIcon.setVisibility(View.VISIBLE);
     }
 }
