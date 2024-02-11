@@ -5,10 +5,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -73,22 +75,21 @@ public class MainActivity extends AppCompatActivity {
         binding.navView.setNavigationItemSelectedListener( item -> {
             int id = item.getItemId();
 
-            if (id == R.id.feedbackNav) {
-                Toast.makeText(MainActivity.this, "Feedback", Toast.LENGTH_SHORT).show();
-                return true;
-            } else if (id == R.id.themesNav) {
-                Toast.makeText(MainActivity.this, "Themes", Toast.LENGTH_SHORT).show();
-                return true;
-            } else if (id == R.id.sortOrderNav) {
-                Toast.makeText(MainActivity.this, "Sort Order", Toast.LENGTH_SHORT).show();
-                return true;
-            } else if (id == R.id.aboutNav) {
-                Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
-                return true;
-            } else if (id == R.id.exitNav) {
+            if (id == R.id.exitNav) {
                 System.exit(1);
+            } else if (id == R.id.aboutNav) {
+
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://www.4rju9.netlify.app/"));
+                startActivity(intent);
+                
+            } else {
+                Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
             }
-            return false;
+            binding.getRoot().closeDrawer(GravityCompat.START);
+            return true;
         });
 
     }
