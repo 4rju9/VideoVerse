@@ -48,6 +48,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     public static int POS = -1;
     public static int LIST_CODE = 0;
+    public static boolean isFolder = false;
     private ActivityPlayerBinding binding;
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
@@ -107,7 +108,11 @@ public class PlayerActivity extends AppCompatActivity {
         } else if (LIST_CODE == 3) {
             PLAYER_LIST = MainActivity.SEARCHED_LIST;
         } else if (LIST_CODE == 4) {
-            PLAYER_LIST = MainActivity.VIDEO_LIST;
+            if (isFolder) {
+                PLAYER_LIST = FoldersActivity.LIST;
+            } else {
+                PLAYER_LIST = MainActivity.VIDEO_LIST;
+            }
         }
         createPlayer();
         setRepeatIcon(repeat);
@@ -410,7 +415,6 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void nextPrevVideo (boolean isNext) {
-        initStatus(2);
         setPOS(isNext);
         createPlayer();
     }

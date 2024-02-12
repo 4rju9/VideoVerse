@@ -57,6 +57,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         holder.root.setOnClickListener( v -> {
             if (MainActivity.isSearched) CODE = 3;
+            if (CODE == 1) PlayerActivity.isFolder = true;
             PlayerActivity.pipStatus = CODE;
             sendIntent(position, CODE);
         });

@@ -20,7 +20,7 @@
         android:id="@+id/videoRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="10dp"
         android:dividerHeight="10dp"
         android:divider="@null"
         tools:listitem="@layout/video_view"
@@ -28,7 +28,8 @@
         android:scrollbarThumbVertical="@drawable/scroll_bar_icon"
         app:layout_constraintTop_toBottomOf="@id/totalVideos"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/nowPlayingIcon"

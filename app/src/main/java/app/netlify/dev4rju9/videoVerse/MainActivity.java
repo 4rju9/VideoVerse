@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
                 intent.setData(Uri.parse("https://www.4rju9.netlify.app/"));
                 startActivity(intent);
-                
+
             } else {
                 Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
             }
