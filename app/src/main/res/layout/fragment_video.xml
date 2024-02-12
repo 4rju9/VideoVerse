@@ -4,23 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/ThemeSecondary"
     tools:context=".VideoFragment">
 
     <TextView
         android:id="@+id/totalVideos"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tv_total_videos"
-        android:textColor="@color/black"
+        android:textColor="?attr/ThemeTextColor"
         android:layout_margin="10dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/videoRecyclerView"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/videoRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
+        android:layout_height="0dp"
         android:dividerHeight="10dp"
         android:divider="@null"
         tools:listitem="@layout/video_view"
@@ -37,11 +39,9 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:icon="@drawable/play_icon"
-        app:iconTint="@color/deep_sky_blue"
+        app:iconTint="?attr/ThemeSecondary"
         app:iconSize="35dp"
-        android:backgroundTint="@color/white"
-        app:strokeWidth="2dp"
-        app:strokeColor="@color/deep_sky_blue"
+        android:backgroundTint="?attr/ThemeIconColor"
         app:shapeAppearanceOverlay="@style/fab_round"
         app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintVertical_bias="0.97"

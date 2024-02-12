@@ -3,6 +3,7 @@ package app.netlify.dev4rju9.videoVerse;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
@@ -10,18 +11,25 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
 import java.util.ArrayList;
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityMainBinding;
+import app.netlify.dev4rju9.videoVerse.databinding.ThemeViewBinding;
 import app.netlify.dev4rju9.videoVerse.models.Folder;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
@@ -33,14 +41,22 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Folder> FOLDER_LIST;
     public static ArrayList<Video> SEARCHED_LIST;
     public static boolean isSearched = false;
+    public static int THEME_INDEX = 0;
+    public static int[] THEMES = {
+            R.style.DeepSkyBlueNav, R.style.BrownNav, R.style.YellowNav, R.style.PurpleNav,
+            R.style.PinkNav, R.style.DarkBlackTheme, R.style.DarkPurpleNav, R.style.BlackNav,
+            R.style.BlueBlackNav, R.style.BrownBlackNav, R.style.YellowBlackNav, R.style.PinkBlackNav
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        saveTheme(-1);
+        setTheme(THEMES[THEME_INDEX]);
+
         // For View Binding.
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setTheme(R.style.DeepSkyBlueNav);
         setContentView(binding.getRoot());
 
         // TODO: Code Goes Here.
@@ -84,6 +100,80 @@ public class MainActivity extends AppCompatActivity {
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
                 intent.setData(Uri.parse("https://www.4rju9.netlify.app/"));
                 startActivity(intent);
+
+            } else if (id == R.id.themesNav) {
+
+                View customDialog = LayoutInflater.from(this).inflate(R.layout.theme_view, binding.getRoot(), false);
+                ThemeViewBinding themeBinding = ThemeViewBinding.bind(customDialog);
+                AlertDialog mainDialog = new MaterialAlertDialogBuilder(this)
+                        .setView(customDialog)
+                        .setTitle("App Theme")
+                        .create();
+                mainDialog.show();
+
+                switch (THEME_INDEX) {
+                    case 0: {
+                        themeBinding.deepSkyBlueTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 1: {
+                        themeBinding.brownTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 2: {
+                        themeBinding.yellowTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 3: {
+                        themeBinding.purpleTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 4: {
+                        themeBinding.pinkTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 5: {
+                        themeBinding.darkBlackTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 6: {
+                        themeBinding.darkPurpleTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 7: {
+                        themeBinding.blackTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 8: {
+                        themeBinding.blueBlackTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 9: {
+                        themeBinding.brownBlackTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 10: {
+                        themeBinding.yellowBlackTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                    case 11: {
+                        themeBinding.pinkBlackTheme.setBackgroundColor(Color.LTGRAY);
+                        break;
+                    }
+                }
+
+                themeBinding.deepSkyBlueTheme.setOnClickListener(v -> saveTheme(0));
+                themeBinding.brownTheme.setOnClickListener(v -> saveTheme(1));
+                themeBinding.yellowTheme.setOnClickListener(v -> saveTheme(2));
+                themeBinding.purpleTheme.setOnClickListener(v -> saveTheme(3));
+                themeBinding.pinkTheme.setOnClickListener(v -> saveTheme(4));
+                themeBinding.darkBlackTheme.setOnClickListener(v -> saveTheme(5));
+                themeBinding.darkPurpleTheme.setOnClickListener(v -> saveTheme(6));
+                themeBinding.blackTheme.setOnClickListener(v -> saveTheme(7));
+                themeBinding.blueBlackTheme.setOnClickListener(v -> saveTheme(8));
+                themeBinding.brownBlackTheme.setOnClickListener(v -> saveTheme(9));
+                themeBinding.yellowBlackTheme.setOnClickListener(v -> saveTheme(10));
+                themeBinding.pinkBlackTheme.setOnClickListener(v -> saveTheme(11));
 
             } else {
                 Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -214,6 +304,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return tempList;
+    }
+    
+    private void saveTheme (int index) {
+
+        SharedPreferences prefs = getSharedPreferences("AppThemes", Context.MODE_PRIVATE);
+        
+        if (index == -1) {
+            THEME_INDEX = prefs.getInt("themeIndex", 0);
+        } else {
+            prefs.edit().putInt("themeIndex", index).apply();
+            finish();
+            startActivity(getIntent());
+        }
+        
     }
 
 }

@@ -8,6 +8,6 @@
     <style
         name="Theme.BottomNavigationView.ActiveIndicator"
         parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/deep_sky_blue</item>
+        <item name="android:color">@android:color/transparent</item>
     </style>
 </resources>

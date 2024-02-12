@@ -27,8 +27,10 @@ public class FoldersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTheme(MainActivity.THEMES[MainActivity.THEME_INDEX]);
+
         ActivityFoldersBinding binding = ActivityFoldersBinding.inflate(getLayoutInflater());
-        setTheme(R.style.DeepSkyBlueNav);
         setContentView(binding.getRoot());
 
         Intent result = getIntent();

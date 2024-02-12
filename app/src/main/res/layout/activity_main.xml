@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
+    android:background="?attr/ThemeSecondary"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -29,9 +30,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_nav"
-            app:backgroundTint="@color/white"
+            app:backgroundTint="?attr/ThemeSecondary"
             app:itemIconTint="@drawable/bg_icon_selector"
-            app:itemTextColor="@color/black"
+            app:itemTextColor="?attr/ThemeTextColor"
             app:itemActiveIndicatorStyle="@style/Theme.BottomNavigationView.ActiveIndicator"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -44,8 +45,8 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/nav_menu"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/deep_sky_blue"
-        app:itemTextColor="@color/black"
-        android:background="@color/white"/>
+        app:itemIconTint="?attr/ThemeIconColor"
+        app:itemTextColor="?attr/ThemeTextColor"
+        android:background="?attr/ThemeSecondary"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

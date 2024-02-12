@@ -2,17 +2,184 @@
     <!-- Base application theme. -->
     <style name="Theme.VideoVerse" parent="Theme.Material3.Light">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/white</item> -->
-        <!-- <item name="colorPrimaryVariant">?attr/colorPrimaryVariant</item> -->
+        <item name="ThemePrimary">@color/deep_sky_blue</item>
+         <item name="colorPrimary">@color/white</item>
+         <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
         <item name="android:statusBarColor">@color/black</item>
     </style>
+
+    <attr name="ThemePrimary" format="color" />
+    <attr name="ThemeSecondary" format="color" />
+    <attr name="ThemeTextColor" format="color" />
+    <attr name="ThemeIconColor" format="color" />
+    <attr name="ThemeIconInactiveColor" format="color" />
 
     <!-- Custom Theme Deep Sky Blue -->
     <style name="DeepSkyBlueNav" parent="Theme.MaterialComponents.Light">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/deep_sky_blue</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="ThemePrimary">@color/deep_sky_blue</item>
+        <item name="ThemeSecondary">@color/white</item>
+        <item name="ThemeTextColor">@color/black</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#00A9F7</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="BrownNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_brown</item>
+        <item name="ThemeSecondary">@color/white</item>
+        <item name="ThemeTextColor">@color/black</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#5D4038</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="YellowNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_yellow</item>
+        <item name="ThemeSecondary">@color/white</item>
+        <item name="ThemeTextColor">@color/black</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#E49900</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="PurpleNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_purple</item>
+        <item name="ThemeSecondary">@color/white</item>
+        <item name="ThemeTextColor">@color/black</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#6B18BE</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="PinkNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_pink</item>
+        <item name="ThemeSecondary">@color/white</item>
+        <item name="ThemeTextColor">@color/black</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#CB0461</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="DarkBlackTheme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/black</item>
+        <item name="ThemeSecondary">@color/black</item>
+        <item name="ThemeTextColor">@color/white</item>
+        <item name="ThemeIconColor">@color/white</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">?attr/ThemePrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="DarkPurpleNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_dark_purple</item>
+        <item name="ThemeSecondary">@color/white</item>
+        <item name="ThemeTextColor">@color/black</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#291E40</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="BlackNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_black</item>
+        <item name="ThemeSecondary">@color/cool_black</item>
+        <item name="ThemeTextColor">@color/white</item>
+        <item name="ThemeIconColor">@color/white</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">?attr/ThemePrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="BlueBlackNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/deep_sky_blue</item>
+        <item name="ThemeSecondary">@color/black</item>
+        <item name="ThemeTextColor">@color/white</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#00A9F7</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="BrownBlackNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_brown</item>
+        <item name="ThemeSecondary">@color/black</item>
+        <item name="ThemeTextColor">@color/white</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#5D4038</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="YellowBlackNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_yellow</item>
+        <item name="ThemeSecondary">@color/black</item>
+        <item name="ThemeTextColor">@color/white</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#E49900</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="PinkBlackNav" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="ThemePrimary">@color/cool_pink</item>
+        <item name="ThemeSecondary">@color/black</item>
+        <item name="ThemeTextColor">@color/white</item>
+        <item name="ThemeIconColor">?attr/ThemePrimary</item>
+        <item name="ThemeIconInactiveColor">?attr/ThemeTextColor</item>
+        <item name="colorPrimary">?attr/ThemePrimary</item>
+        <item name="android:textColorPrimary">?attr/ThemeTextColor</item>
+        <item name="colorPrimaryVariant">?attr/ThemePrimary</item>
+        <item name="android:statusBarColor">#CB0461</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
@@ -28,7 +195,7 @@
     <style
         name="Theme.BottomNavigationView.ActiveIndicator"
         parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/deep_sky_blue</item>
+        <item name="android:color">@android:color/transparent</item>
     </style>
 
     <style

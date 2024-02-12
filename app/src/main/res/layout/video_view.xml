@@ -23,15 +23,18 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="6dp"
         android:padding="2dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/videoTitleName"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="@string/tv_video_name"
-            android:textColor="@color/black"
+            android:textColor="?attr/ThemeTextColor"
             android:maxLines="1"
             android:gravity="center_vertical"/>
 
@@ -40,8 +43,9 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="@string/tv_folder_name"
-            android:textColor="@color/black"
-            android:maxLines="1"/>
+            android:textColor="?attr/ThemeTextColor"
+            android:maxLines="1"
+            android:gravity="center_vertical"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -50,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="@string/tv_duration"
-        android:textColor="@color/black"
+        android:textColor="?attr/ThemeTextColor"
         android:gravity="center"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

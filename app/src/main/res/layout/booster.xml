@@ -24,6 +24,6 @@
         android:gravity="center"
         android:text="@string/booster"
         android:textSize="18sp"
-        android:textColor="@color/white"/>
+        android:textColor="?attr/ThemeTextColor"/>
 
 </LinearLayout>

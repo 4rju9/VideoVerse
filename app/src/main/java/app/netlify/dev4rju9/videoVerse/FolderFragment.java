@@ -21,6 +21,9 @@ public class FolderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        
+        requireContext().getTheme().applyStyle(MainActivity.THEMES[MainActivity.THEME_INDEX], true);
+        
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_folder, container, false);
 

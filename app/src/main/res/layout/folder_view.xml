@@ -16,7 +16,7 @@
         android:layout_height="50dp"
         android:src="@drawable/all_folders_icon"
         android:contentDescription="@string/tv_image"
-        app:tint="@color/deep_sky_blue" />
+        app:tint="?attr/ThemeIconColor" />
 
     <TextView
         android:id="@+id/folderName"
@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="6dp"
         android:text="@string/tv_folder_name"
-        android:textColor="@color/black"
+        android:textColor="?attr/ThemeTextColor"
         android:textSize="18sp"
         android:gravity="center_vertical"/>
 
