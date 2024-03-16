@@ -79,7 +79,7 @@ public class FoldersActivity extends AppCompatActivity {
         };
 
         Cursor cursor = this.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                projection, selection, new String[] {ID}, MediaStore.Video.Media.TITLE + " ASC");
+                projection, selection, new String[] {ID}, MainActivity.SORT_BY[MainActivity.SORT_INDEX]);
 
         if (cursor != null) {
             if (cursor.moveToNext()) {

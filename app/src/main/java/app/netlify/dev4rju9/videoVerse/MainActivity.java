@@ -26,8 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.lukelorusso.verticalseekbar.BuildConfig;
-
 import java.io.File;
 import java.util.ArrayList;
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityMainBinding;
@@ -48,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
             R.style.DeepSkyBlueNav, R.style.BrownNav, R.style.YellowNav, R.style.PurpleNav,
             R.style.PinkNav, R.style.DarkBlackTheme, R.style.DarkPurpleNav, R.style.BlackNav,
             R.style.BlueBlackNav, R.style.BrownBlackNav, R.style.YellowBlackNav, R.style.PinkBlackNav
+    };
+    public static int SORT_INDEX = 0;
+    public static String[] SORT_BY = {
+            MediaStore.Video.Media.DATE_ADDED + " DESC", MediaStore.Video.Media.DATE_ADDED,
+            MediaStore.Video.Media.TITLE, MediaStore.Video.Media.TITLE + " DESC",
+            MediaStore.Video.Media.SIZE, MediaStore.Video.Media.SIZE + " DESC",
     };
 
     @Override
@@ -184,10 +188,15 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                         .setTitle("Sort By")
-                        .setPositiveButton("OK", (self, which) -> self.dismiss())
-                        .setSingleChoiceItems(menuItems, 0, (self, position) -> {
-                            Toast.makeText(this, menuItems[position], Toast.LENGTH_SHORT).show();
-                        }).create();
+                        .setPositiveButton("OK", (self, which) -> {
+                            SharedPreferences prefs = getSharedPreferences("AppSortBy", Context.MODE_PRIVATE);
+                            prefs.edit().putInt("sortIndex", SORT_INDEX).apply();
+                            finish();
+                            startActivity(getIntent());
+                        })
+                        .setSingleChoiceItems(menuItems, SORT_INDEX,
+                                (self, position) -> SORT_INDEX = position)
+                        .create();
                 dialog.show();
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
 
@@ -261,6 +270,9 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Video> tempList = new ArrayList<>();
         ArrayList<String> tempFolder = new ArrayList<>();
 
+        SharedPreferences prefs = getSharedPreferences("AppSortBy", Context.MODE_PRIVATE);
+        SORT_INDEX = prefs.getInt("sortIndex", 0);
+
         String[] projection = {
                 MediaStore.Video.Media.TITLE,
                 MediaStore.Video.Media.SIZE,
@@ -273,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         Cursor cursor = this.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                projection, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC");
+                projection, null, null, SORT_BY[SORT_INDEX]);
 
         if (cursor != null) {
             if (cursor.moveToNext()) {
