@@ -26,6 +26,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.lukelorusso.verticalseekbar.BuildConfig;
+
 import java.io.File;
 import java.util.ArrayList;
 import app.netlify.dev4rju9.videoVerse.databinding.ActivityMainBinding;
@@ -174,6 +176,20 @@ public class MainActivity extends AppCompatActivity {
                 themeBinding.brownBlackTheme.setOnClickListener(v -> saveTheme(9));
                 themeBinding.yellowBlackTheme.setOnClickListener(v -> saveTheme(10));
                 themeBinding.pinkBlackTheme.setOnClickListener(v -> saveTheme(11));
+
+            } else if (id == R.id.sortOrderNav) {
+
+                String[] menuItems = {"Latest", "Oldest", "Name(A to Z)", "Name(Z to A)",
+                "File Size(smallest)", "File Size(largest)"};
+
+                AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                        .setTitle("Sort By")
+                        .setPositiveButton("OK", (self, which) -> self.dismiss())
+                        .setSingleChoiceItems(menuItems, 0, (self, position) -> {
+                            Toast.makeText(this, menuItems[position], Toast.LENGTH_SHORT).show();
+                        }).create();
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
 
             } else {
                 Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
