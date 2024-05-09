@@ -3,6 +3,8 @@ package app.netlify.dev4rju9.videoVerse.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 import app.netlify.dev4rju9.videoVerse.MainActivity;
 import app.netlify.dev4rju9.videoVerse.PlayerActivity;
 import app.netlify.dev4rju9.videoVerse.R;
+import app.netlify.dev4rju9.videoVerse.databinding.RenameFieldBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.VideoMoreFeaturesBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.VideoViewBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
@@ -73,6 +77,24 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             AlertDialog dialog = new MaterialAlertDialogBuilder(context).setView(customView)
                     .create();
             dialog.show();
+
+            binding.renameButton.setOnClickListener( mv -> {
+                dialog.dismiss();
+                View view = LayoutInflater.from(context).inflate(R.layout.rename_field, holder.root, false);
+                RenameFieldBinding rename_binding = RenameFieldBinding.bind(view);
+                AlertDialog rename_dialog = new MaterialAlertDialogBuilder(context).setView(view)
+                        .setCancelable(false)
+                        .setPositiveButton("Rename", (self, which) -> self.dismiss())
+                        .setNegativeButton("Cancel", (self, which) -> self.dismiss())
+                        .create();
+                rename_dialog.show();
+                rename_binding.renameField.setText(new SpannableStringBuilder(videoList.get(position).getTitle()));
+                rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
+                rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
+                rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
+                rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
+            });
+
             return true;
         });
 

@@ -8,6 +8,7 @@
     android:orientation="horizontal">
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/rename_button"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
