@@ -37,4 +37,10 @@
     <string name="sleep_timer">Sleep Timer</string>
     <string name="pip_mode">PIP Mode</string>
     <string name="tv_search">Search</string>
+
+    // For More Features
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="info">Info</string>
+    <string name="share">Share</string>
 </resources>

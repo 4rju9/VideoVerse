@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?attr/ThemeSecondary"
+    android:orientation="horizontal">
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="@string/rename"
+        app:icon="@drawable/rename_icon"
+        android:textColor="?attr/ThemeTextColor"
+        android:textAllCaps="false"
+        app:iconTint="?attr/ThemeIconColor"
+        app:iconGravity="top"
+        android:background="?attr/selectableItemBackground"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="@string/delete"
+        app:icon="@drawable/delete_icon"
+        android:textColor="?attr/ThemeTextColor"
+        android:textAllCaps="false"
+        app:iconTint="?attr/ThemeIconColor"
+        app:iconGravity="top"
+        android:background="?attr/selectableItemBackground"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="0dp"
+        android:layout_weight="0.9"
+        android:layout_height="match_parent"
+        android:text="@string/share"
+        app:icon="@drawable/share_icon"
+        android:textColor="?attr/ThemeTextColor"
+        android:textAllCaps="false"
+        app:iconTint="?attr/ThemeIconColor"
+        app:iconGravity="top"
+        android:background="?attr/selectableItemBackground"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="match_parent"
+        android:text="@string/info"
+        app:icon="@drawable/about_icon"
+        android:textColor="?attr/ThemeTextColor"
+        android:textAllCaps="false"
+        app:iconTint="?attr/ThemeIconColor"
+        app:iconGravity="top"
+        android:background="?attr/selectableItemBackground"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
+</LinearLayout>

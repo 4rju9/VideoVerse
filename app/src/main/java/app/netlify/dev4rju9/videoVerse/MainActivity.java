@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -230,13 +231,21 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkRuntimePermission () {
 
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestRuntimePermission();
-            return false;
+        if (Build.VERSION.SDK_INT <= 32) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestRuntimePermission();
+                return false;
+            }
+        } else {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_MEDIA_VIDEO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestRuntimePermission();
+                return false;
+            }
         }
-
         return true;
 
     }
@@ -248,6 +257,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 7) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                FOLDER_LIST = new ArrayList<>();
+                VIDEO_LIST = getAllVideos();
+                setFragment(new VideoFragment());
             } else {
                 requestRuntimePermission();
             }
