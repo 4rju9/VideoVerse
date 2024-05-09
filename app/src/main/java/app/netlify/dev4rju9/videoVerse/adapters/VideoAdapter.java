@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -25,6 +28,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import app.netlify.dev4rju9.videoVerse.MainActivity;
@@ -89,7 +93,26 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 RenameFieldBinding rename_binding = RenameFieldBinding.bind(view);
                 AlertDialog rename_dialog = new MaterialAlertDialogBuilder(context).setView(view)
                         .setCancelable(false)
-                        .setPositiveButton("Rename", (self, which) -> self.dismiss())
+                        .setPositiveButton("Rename", (self, which) -> {
+
+                            File currentFile = new File(videoList.get(position).getPath());
+                            String new_name = rename_binding.renameField.getText().toString();
+
+                            if (new_name != null && currentFile.exists() && (!new_name.isEmpty())) {
+                                File new_file = new File(currentFile.getParent(),
+                                        new_name + currentFile.getName().substring(currentFile.getName().lastIndexOf(".")));
+                                if (currentFile.renameTo(new_file)) {
+                                    MediaScannerConnection.scanFile(context, new String[] {new_file.toString()},
+                                            new String[] {"video/*"}, null);
+                                    MainActivity.VIDEO_LIST.get(position).setTitle(new_name);
+                                    MainActivity.VIDEO_LIST.get(position).setPath(new_file.getPath());
+                                    MainActivity.VIDEO_LIST.get(position).setVideoUri(Uri.fromFile(new_file));
+                                    notifyItemChanged(position);
+                                } else Toast.makeText(context, "Permission Denied!!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            self.dismiss();
+                        })
                         .setNegativeButton("Cancel", (self, which) -> self.dismiss())
                         .create();
                 rename_dialog.show();
@@ -98,9 +121,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
                 rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
                 rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
-
-                
-
             });
 
             return true;
