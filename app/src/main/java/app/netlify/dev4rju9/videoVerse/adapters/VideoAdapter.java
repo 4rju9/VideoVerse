@@ -4,6 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.SpannableStringBuilder;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -79,6 +83,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             dialog.show();
 
             binding.renameButton.setOnClickListener( mv -> {
+                requestPermissionR();
                 dialog.dismiss();
                 View view = LayoutInflater.from(context).inflate(R.layout.rename_field, holder.root, false);
                 RenameFieldBinding rename_binding = RenameFieldBinding.bind(view);
@@ -93,6 +98,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
                 rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
                 rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
+
+                
+
             });
 
             return true;
@@ -135,6 +143,19 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             image = binding.videoImage;
             root = binding.getRoot();
         }
+    }
+
+    private void requestPermissionR () {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setData(Uri.parse("package:"+context.getApplicationContext().getPackageName()));
+                ContextCompat.startActivity(context, intent, null);
+            }
+        }
+
     }
 
 }
