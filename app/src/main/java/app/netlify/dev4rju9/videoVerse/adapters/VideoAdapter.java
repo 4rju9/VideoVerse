@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -87,6 +88,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                     .create();
             dialog.show();
 
+            // Rename Feature
             binding.renameButton.setOnClickListener( mv -> {
                 requestPermissionR();
                 dialog.dismiss();
@@ -137,6 +139,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
                 rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
                 rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
+            });
+            // Share Video Feature
+            binding.shareButton.setOnClickListener( mv -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("video/*");
+                Video currentVideo = videoList.get(position);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(currentVideo.getPath()));
+                ActivityCompat.startActivity(
+                        context,
+                        Intent.createChooser(
+                                shareIntent,
+                                "share file using options below!"
+                        ),
+                        null
+                );
             });
 
             return true;
