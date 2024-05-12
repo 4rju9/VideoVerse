@@ -82,10 +82,8 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         setContentView(binding.getRoot());
 
         // For Immersive Mode.
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), binding.getRoot());
-        controller.hide(WindowInsetsCompat.Type.systemBars());
-        controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        makeImmersive();
+
         
         initializeUIButtons();
 
@@ -170,6 +168,10 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
 
     @SuppressLint({"PrivateResource", "SetTextI18n", "ServiceCast"})
     private void initializeBinding () {
+
+        binding.playerView.setOnClickListener( v -> {
+            makeImmersive();
+        });
 
         findViewById(R.id.rotation_button).setOnClickListener( v -> {
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -556,4 +558,12 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         if (focusChange <= 0) pauseVideo();
         else playVideo();
     }
+
+    private void makeImmersive () {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), binding.getRoot());
+        controller.hide(WindowInsetsCompat.Type.systemBars());
+        controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+    }
+
 }
