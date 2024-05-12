@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
 import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Build;
@@ -44,7 +45,7 @@ import app.netlify.dev4rju9.videoVerse.databinding.MoreFeaturesBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.PlaybackSpeedDialogBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity implements AudioManager.OnAudioFocusChangeListener {
 
     public static int POS = -1;
     public static int LIST_CODE = 0;
@@ -60,6 +61,7 @@ public class PlayerActivity extends AppCompatActivity {
     private static Timer timer;
     public static int pipStatus = 0;
     private long currentPosition = 0L;
+    private AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -493,9 +495,23 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (audioManager == null) audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        audioManager.abandonAudioFocus(this);
         initStatus(2);
         release();
+    }
+
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+        if (focusChange <= 0) pauseVideo();
+        else playVideo();
     }
 }
