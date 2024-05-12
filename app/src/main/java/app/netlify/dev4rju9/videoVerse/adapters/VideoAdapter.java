@@ -31,6 +31,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
 import java.util.ArrayList;
 
+import app.netlify.dev4rju9.videoVerse.FoldersActivity;
 import app.netlify.dev4rju9.videoVerse.MainActivity;
 import app.netlify.dev4rju9.videoVerse.PlayerActivity;
 import app.netlify.dev4rju9.videoVerse.R;
@@ -104,10 +105,25 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                                 if (currentFile.renameTo(new_file)) {
                                     MediaScannerConnection.scanFile(context, new String[] {new_file.toString()},
                                             new String[] {"video/*"}, null);
-                                    MainActivity.VIDEO_LIST.get(position).setTitle(new_name);
-                                    MainActivity.VIDEO_LIST.get(position).setPath(new_file.getPath());
-                                    MainActivity.VIDEO_LIST.get(position).setVideoUri(Uri.fromFile(new_file));
-                                    notifyItemChanged(position);
+
+                                    if (MainActivity.isSearched) {
+                                        MainActivity.SEARCHED_LIST.get(position).setTitle(new_name);
+                                        MainActivity.SEARCHED_LIST.get(position).setPath(new_file.getPath());
+                                        MainActivity.SEARCHED_LIST.get(position).setVideoUri(Uri.fromFile(new_file));
+                                        notifyItemChanged(position);
+                                    } else if (PlayerActivity.isFolder) {
+                                        FoldersActivity.LIST.get(position).setTitle(new_name);
+                                        FoldersActivity.LIST.get(position).setPath(new_file.getPath());
+                                        FoldersActivity.LIST.get(position).setVideoUri(Uri.fromFile(new_file));
+                                        notifyItemChanged(position);
+                                        MainActivity.dataChanged = true;
+                                    } else {
+                                        MainActivity.VIDEO_LIST.get(position).setTitle(new_name);
+                                        MainActivity.VIDEO_LIST.get(position).setPath(new_file.getPath());
+                                        MainActivity.VIDEO_LIST.get(position).setVideoUri(Uri.fromFile(new_file));
+                                        notifyItemChanged(position);
+                                    }
+
                                 } else Toast.makeText(context, "Permission Denied!!", Toast.LENGTH_SHORT).show();
                             }
 
@@ -119,8 +135,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 rename_binding.renameField.setText(new SpannableStringBuilder(videoList.get(position).getTitle()));
                 rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
                 rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
-                rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
-                rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeSecondary, Color.WHITE));
+                rename_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
+                rename_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
             });
 
             return true;

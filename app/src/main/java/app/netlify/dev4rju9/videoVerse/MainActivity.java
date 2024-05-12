@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Video> VIDEO_LIST;
     public static ArrayList<Folder> FOLDER_LIST;
     public static ArrayList<Video> SEARCHED_LIST;
-    public static boolean isSearched = false;
+    public static boolean isSearched = false, dataChanged = false;
     public static int THEME_INDEX = 0;
     public static int[] THEMES = {
             R.style.DeepSkyBlueNav, R.style.BrownNav, R.style.YellowNav, R.style.PurpleNav,
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.bottomNav.setOnItemSelectedListener( item -> {
 
+            if (dataChanged) VIDEO_LIST = getAllVideos();
             int itemId = item.getItemId(); // item id of clicked item from bottom navigation bar.
 
             if (itemId == R.id.videoView) {

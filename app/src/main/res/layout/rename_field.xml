@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:startIconDrawable="@drawable/rename_icon"
-        app:startIconTint="?attr/ThemeIconColor"
+        app:startIconTint="?attr/ThemeIconColorSecondary"
         app:boxStrokeColor="?attr/ThemePrimary"
         app:boxStrokeWidth="2dp"
         android:layout_marginTop="15dp"
@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLength="200"
+            android:textColor="@color/black"
             android:inputType="textAutoComplete"/>
     </com.google.android.material.textfield.TextInputLayout>
 

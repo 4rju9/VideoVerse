@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="?attr/ThemeSecondary"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <com.google.android.material.button.MaterialButton
@@ -14,9 +14,9 @@
         android:layout_height="match_parent"
         android:text="@string/rename"
         app:icon="@drawable/rename_icon"
-        android:textColor="?attr/ThemeTextColor"
+        android:textColor="@color/black"
         android:textAllCaps="false"
-        app:iconTint="?attr/ThemeIconColor"
+        app:iconTint="?attr/ThemeIconColorSecondary"
         app:iconGravity="top"
         android:background="?attr/selectableItemBackground"
         style="@style/Widget.AppCompat.Button.Borderless"/>
@@ -27,9 +27,9 @@
         android:layout_height="match_parent"
         android:text="@string/delete"
         app:icon="@drawable/delete_icon"
-        android:textColor="?attr/ThemeTextColor"
+        android:textColor="@color/black"
         android:textAllCaps="false"
-        app:iconTint="?attr/ThemeIconColor"
+        app:iconTint="?attr/ThemeIconColorSecondary"
         app:iconGravity="top"
         android:background="?attr/selectableItemBackground"
         style="@style/Widget.AppCompat.Button.Borderless"/>
@@ -40,9 +40,9 @@
         android:layout_height="match_parent"
         android:text="@string/share"
         app:icon="@drawable/share_icon"
-        android:textColor="?attr/ThemeTextColor"
+        android:textColor="@color/black"
         android:textAllCaps="false"
-        app:iconTint="?attr/ThemeIconColor"
+        app:iconTint="?attr/ThemeIconColorSecondary"
         app:iconGravity="top"
         android:background="?attr/selectableItemBackground"
         style="@style/Widget.AppCompat.Button.Borderless"/>
@@ -53,9 +53,9 @@
         android:layout_height="match_parent"
         android:text="@string/info"
         app:icon="@drawable/about_icon"
-        android:textColor="?attr/ThemeTextColor"
+        android:textColor="@color/black"
         android:textAllCaps="false"
-        app:iconTint="?attr/ThemeIconColor"
+        app:iconTint="?attr/ThemeIconColorSecondary"
         app:iconGravity="top"
         android:background="?attr/selectableItemBackground"
         style="@style/Widget.AppCompat.Button.Borderless"/>
