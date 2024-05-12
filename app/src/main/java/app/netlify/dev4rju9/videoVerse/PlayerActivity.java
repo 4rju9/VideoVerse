@@ -34,6 +34,8 @@ import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Tracks;
+import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -252,23 +254,41 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
                 pauseVideo();
 
                 ArrayList<String> audioTrack = new ArrayList<>();
-                int length = exoPlayer.getCurrentTrackGroups().length;
-                for (int i=0; i<length; i++) {
-                    if (exoPlayer.getCurrentTrackGroups().get(i).getFormat(0)
-                            .selectionFlags == C.SELECTION_FLAG_DEFAULT) {
-                        String lang = new Locale(exoPlayer.getCurrentTrackGroups()
-                                        .get(i).getFormat(0).language).getDisplayLanguage();
-                        if (!lang.equals("und")) audioTrack.add(lang);
+                ArrayList<String> audioList = new ArrayList<>();
+
+                for (Tracks.Group group : exoPlayer.getCurrentTracks().getGroups()) {
+                    if (group.getType() == C.TRACK_TYPE_AUDIO) {
+                        TrackGroup groupInfo = group.getMediaTrackGroup();
+                        int length = groupInfo.length;
+                        for (int i=0; i<length; i++) {
+                            audioTrack.add(groupInfo.getFormat(i).language);
+                            String text = "";
+                            text += audioList.size() + 1 + " ";
+                            text += new Locale(groupInfo.getFormat(i).language).getDisplayLanguage();
+                            text += " (" + groupInfo.getFormat(i).label + ")";
+                            audioList.add(text);
+                        }
                     }
+                }
+
+                if (audioList.get(0).contains("null")) {
+                    audioList.remove(0);
+                    audioList.add(0, "1. Default Track");
                 }
 
                 new MaterialAlertDialogBuilder(this, R.style.alertDialog)
                         .setTitle("Select Language")
                         .setOnCancelListener( d -> playVideo())
+                        .setPositiveButton("Mute Audio", (self, pos) -> {
+                            trackSelector.setParameters(trackSelector.buildUponParameters()
+                                    .setRendererDisabled(C.TRACK_TYPE_AUDIO, true));
+                            self.dismiss();
+                        })
                         .setBackground(new ColorDrawable(0xB300BEF7))
-                        .setItems(audioTrack.toArray(new String[0]),
+                        .setItems(audioList.toArray(new String[0]),
                                 (dial, pos) -> trackSelector.setParameters(
                                         trackSelector.buildUponParameters()
+                                                .setRendererDisabled(C.TRACK_TYPE_AUDIO, false)
                                                 .setPreferredAudioLanguage(audioTrack.get(pos))
                                 ))
                         .create().show();
