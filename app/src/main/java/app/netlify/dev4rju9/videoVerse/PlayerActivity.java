@@ -28,6 +28,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -66,6 +68,8 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
     public static int pipStatus = 0;
     private long currentPosition = 0L;
     private AudioManager audioManager;
+    private ImageButton playPauseBtn, fullScreenBtn, lockButton, repeatButton;
+    private TextView videoTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,8 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), binding.getRoot());
         controller.hide(WindowInsetsCompat.Type.systemBars());
         controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        
+        intializeUiButtons();
 
         // For handling video file intent;
         try {
@@ -120,6 +126,14 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 
+    }
+    
+    private void intializeUiButtons () {
+        playPauseBtn = findViewById(R.id.play_pause_button);
+        fullScreenBtn = findViewById(R.id.fullscreen_button);
+        videoTitle = findViewById(R.id.video_title);
+        lockButton = findViewById(R.id.lock_button);
+        repeatButton = findViewById(R.id.repeat_button);
     }
 
     private void initializePlayer () {
@@ -161,28 +175,28 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
     @SuppressLint({"PrivateResource", "SetTextI18n", "ServiceCast"})
     private void initializeBinding () {
 
-        binding.rewindFrame.setOnClickListener(new DoubleClickListener(() -> {
+        findViewById(R.id.rewind_frame).setOnClickListener(new DoubleClickListener(() -> {
             binding.playerView.showController();
-            binding.rewindButton.setVisibility(View.VISIBLE);
+            findViewById(R.id.rewind_button).setVisibility(View.VISIBLE);
             long position = exoPlayer.getCurrentPosition() - 10000;
             exoPlayer.seekTo(Math.max(0, position));
         }));
-        binding.forwardFrame.setOnClickListener(new DoubleClickListener(() -> {
+        findViewById(R.id.forward_frame).setOnClickListener(new DoubleClickListener(() -> {
             binding.playerView.showController();
-            binding.forwardButton.setVisibility(View.VISIBLE);
+            findViewById(R.id.forward_button).setVisibility(View.VISIBLE);
             long position = exoPlayer.getCurrentPosition() + 10000;
             long max = exoPlayer.getDuration();
             exoPlayer.seekTo(Math.min(position, max));
         }));
 
-        binding.playerBackButton.setOnClickListener( v -> finish());
-        binding.playPauseButton.setOnClickListener( v -> {
+        findViewById(R.id.player_back_button).setOnClickListener( v -> finish());
+        playPauseBtn.setOnClickListener( v -> {
             if (exoPlayer.isPlaying()) pauseVideo();
             else playVideo();
         });
-        binding.prevButton.setOnClickListener( v -> nextPrevVideo(false));
-        binding.nextButton.setOnClickListener( v -> nextPrevVideo(true));
-        binding.repeatButton.setOnClickListener( v -> {
+        findViewById(R.id.prev_button).setOnClickListener( v -> nextPrevVideo(false));
+        findViewById(R.id.next_button).setOnClickListener( v -> nextPrevVideo(true));
+        repeatButton.setOnClickListener( v -> {
             if (repeat) {
                 repeat = false;
                 exoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF);
@@ -193,7 +207,7 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
                 setRepeatIcon(repeat);
             }
         });
-        binding.fullscreenButton.setOnClickListener( v -> {
+        fullScreenBtn.setOnClickListener( v -> {
             if (isFullscreen) {
                 isFullscreen = false;
                 playInFullscreen(false);
@@ -203,21 +217,21 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
             }
         });
 
-        binding.lockButton.setOnClickListener( v -> {
+        lockButton.setOnClickListener( v -> {
             if (isLocked) {
                 isLocked = false;
                 binding.playerView.setUseController(true);
                 binding.playerView.showController();
-                binding.lockButton.setImageResource(R.drawable.lock_open_icon);
+                lockButton.setImageResource(R.drawable.lock_open_icon);
             } else {
                 isLocked = true;
                 binding.playerView.hideController();
                 binding.playerView.setUseController(false);
-                binding.lockButton.setImageResource(R.drawable.lock_close_icon);
+                lockButton.setImageResource(R.drawable.lock_close_icon);
             }
         });
 
-        binding.menuButton.setOnClickListener( v -> {
+        findViewById(R.id.menu_button).setOnClickListener( v -> {
             pauseVideo();
             View moreFeaturesView = LayoutInflater.from(this).inflate(R.layout.more_features, binding.getRoot(), false);
             MoreFeaturesBinding featuresBinding = MoreFeaturesBinding.bind(moreFeaturesView);
@@ -397,8 +411,8 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         initStatus(1);
 
         // make video title movable.
-        binding.videoTitle.setText(PLAYER_LIST.get(POS).getTitle());
-        binding.videoTitle.setSelected(true);
+        videoTitle.setText(PLAYER_LIST.get(POS).getTitle());
+        videoTitle.setSelected(true);
 
         release();
         speed = 1.0f;
@@ -434,20 +448,20 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
 
     private void setRepeatIcon (boolean repeat) {
 
-        if (repeat) binding.repeatButton.setImageResource(com.google
+        if (repeat) repeatButton.setImageResource(com.google
                 .android.exoplayer2.ui.R.drawable.exo_controls_repeat_all);
-        else binding.repeatButton.setImageResource(com.google
+        else repeatButton.setImageResource(com.google
                 .android.exoplayer2.ui.R.drawable.exo_controls_repeat_off);
 
     }
 
     private void playVideo () {
-        binding.playPauseButton.setImageResource(R.drawable.pause_icon);
+        playPauseBtn.setImageResource(R.drawable.pause_icon);
         exoPlayer.play();
     }
 
     private void pauseVideo () {
-        binding.playPauseButton.setImageResource(R.drawable.play_icon);
+        playPauseBtn.setImageResource(R.drawable.play_icon);
         exoPlayer.pause();
     }
 
@@ -471,11 +485,11 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         if (enable) {
             binding.playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
             exoPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
-            binding.fullscreenButton.setImageResource(R.drawable.fullscreen_exit_icon);
+            fullScreenBtn.setImageResource(R.drawable.fullscreen_exit_icon);
         } else {
             binding.playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
             exoPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT);
-            binding.fullscreenButton.setImageResource(R.drawable.fullscreen_icon);
+            fullScreenBtn.setImageResource(R.drawable.fullscreen_icon);
         }
     }
 
@@ -489,12 +503,9 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
     }
 
     private void changeVisibility (int visibility) {
-        binding.topController.setVisibility(visibility);
-        binding.bottomController.setVisibility(visibility);
-        binding.playPauseButton.setVisibility(visibility);
-        if (!isLocked) binding.lockButton.setVisibility(visibility);
-        binding.rewindButton.setVisibility(View.GONE);
-        binding.forwardButton.setVisibility(View.GONE);
+        if (!isLocked) lockButton.setVisibility(visibility);
+        findViewById(R.id.rewind_button).setVisibility(View.GONE);
+        findViewById(R.id.forward_button).setVisibility(View.GONE);
     }
 
     private void release () {

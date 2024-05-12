@@ -1,30 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="bottom"
-    android:background="#42000000"
-    android:orientation="vertical">
+    android:background="#42000000">
+
+    <LinearLayout
+        android:id="@+id/top_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#42000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageButton
+            android:id="@+id/player_back_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/back_icon"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_back_button"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/tv_video_name"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/menu_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="50dp"
+            android:src="@drawable/more_icon"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_menu"
+            app:tint="@color/white" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/lock_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/lock_open_icon"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/tv_lock"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="@id/top_controller"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <FrameLayout
+            android:id="@+id/rewind_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/rewind_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/rewind_icon"
+                android:contentDescription="@string/tv_play_button"
+                app:tint="@color/white"
+                android:clickable="false"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/play_pause_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/play_icon"
+            android:contentDescription="@string/tv_play_button"
+            app:tint="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground" />
+
+        <FrameLayout
+            android:id="@+id/forward_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/forward_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/forward_icon"
+                android:contentDescription="@string/tv_play_button"
+                app:tint="@color/white"
+                android:clickable="false"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end|bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageButton
+            android:id="@+id/repeat_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/exo_controls_repeat_off"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_repeat_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+        <ImageButton
+            android:id="@+id/prev_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/exo_controls_previous"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_previous_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+        <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/exo_controls_next"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_next_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+        <ImageButton
+            android:id="@+id/fullscreen_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/fullscreen_icon"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_fullscreen_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
+    </LinearLayout>
 
     <com.google.android.exoplayer2.ui.DefaultTimeBar
         android:id="@id/exo_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginHorizontal="5dp"
         app:scrubber_color="@color/white"
         app:played_color="@color/white"
         app:unplayed_color="@color/white_transparent_20"
         app:buffered_color="@color/white_transparent_60"
         app:scrubber_enabled_size="10dp"
         app:scrubber_disabled_size="5dp"
-        app:scrubber_dragged_size="15dp"/>
+        app:scrubber_dragged_size="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_controller"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <TextView android:id="@id/exo_position"
             android:layout_width="wrap_content"
@@ -55,4 +230,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
