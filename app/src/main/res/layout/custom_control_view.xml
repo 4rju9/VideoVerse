@@ -166,6 +166,16 @@
             app:tint="@color/white"
             tools:ignore="PrivateResource" />
 
+        <ImageButton
+            android:id="@+id/rotation_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/screen_rotation_icon"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/tv_rotation_button"
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
+
     </LinearLayout>
 
     <com.google.android.exoplayer2.ui.DefaultTimeBar

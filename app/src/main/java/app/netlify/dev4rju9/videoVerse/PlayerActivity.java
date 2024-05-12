@@ -12,6 +12,7 @@ import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -36,7 +37,6 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -87,7 +87,7 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         controller.hide(WindowInsetsCompat.Type.systemBars());
         controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
         
-        intializeUiButtons();
+        initializeUIButtons();
 
         // For handling video file intent;
         try {
@@ -125,7 +125,7 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
 
     }
     
-    private void intializeUiButtons () {
+    private void initializeUIButtons () {
         playPauseBtn = findViewById(R.id.play_pause_button);
         fullScreenBtn = findViewById(R.id.fullscreen_button);
         videoTitle = findViewById(R.id.video_title);
@@ -170,6 +170,14 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
 
     @SuppressLint({"PrivateResource", "SetTextI18n", "ServiceCast"})
     private void initializeBinding () {
+
+        findViewById(R.id.rotation_button).setOnClickListener( v -> {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            } else {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            }
+        });
 
         findViewById(R.id.rewind_frame).setOnClickListener(new DoubleClickListener(() -> {
             binding.playerView.showController();
@@ -431,7 +439,7 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
                 if (playbackState == Player.STATE_ENDED) {
                     initStatus(3);
                     nextPrevVideo(true);
-                };
+                }
             }
         });
 
@@ -443,6 +451,8 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
             if (isLocked) binding.lockButton.setVisibility(View.VISIBLE);
             else if (binding.playerView.isControllerVisible()) binding.lockButton.setVisibility(View.VISIBLE);
             else binding.lockButton.setVisibility(View.GONE);
+            findViewById(R.id.forward_button).setVisibility(View.GONE);
+            findViewById(R.id.rewind_button).setVisibility(View.GONE);
         });
 
     }
@@ -492,12 +502,6 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
             exoPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT);
             fullScreenBtn.setImageResource(R.drawable.fullscreen_icon);
         }
-    }
-
-    private void changeVisibility (int visibility) {
-        if (!isLocked) binding.lockButton.setVisibility(visibility);
-        findViewById(R.id.rewind_button).setVisibility(View.GONE);
-        findViewById(R.id.forward_button).setVisibility(View.GONE);
     }
 
     private void release () {
