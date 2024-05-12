@@ -20,8 +20,6 @@ import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Process;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -60,7 +58,6 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
     public static ArrayList<Video> PLAYER_LIST;
     private static ExoPlayer exoPlayer;
     private boolean repeat = false, isFullscreen = false, isLocked = false;
-    private Runnable runnable;
     private DefaultTrackSelector trackSelector;
     private static LoudnessEnhancer loudnessEnhancer;
     private static float speed = 1.0f;
@@ -68,7 +65,7 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
     public static int pipStatus = 0;
     private long currentPosition = 0L;
     private AudioManager audioManager;
-    private ImageButton playPauseBtn, fullScreenBtn, lockButton, repeatButton;
+    private ImageButton playPauseBtn, fullScreenBtn, repeatButton;
     private TextView videoTitle;
 
     @Override
@@ -132,7 +129,6 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         playPauseBtn = findViewById(R.id.play_pause_button);
         fullScreenBtn = findViewById(R.id.fullscreen_button);
         videoTitle = findViewById(R.id.video_title);
-        lockButton = findViewById(R.id.lock_button);
         repeatButton = findViewById(R.id.repeat_button);
     }
 
@@ -217,17 +213,17 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
             }
         });
 
-        lockButton.setOnClickListener( v -> {
+        binding.lockButton.setOnClickListener( v -> {
             if (isLocked) {
                 isLocked = false;
                 binding.playerView.setUseController(true);
                 binding.playerView.showController();
-                lockButton.setImageResource(R.drawable.lock_open_icon);
+                binding.lockButton.setImageResource(R.drawable.lock_open_icon);
             } else {
                 isLocked = true;
                 binding.playerView.hideController();
                 binding.playerView.setUseController(false);
-                lockButton.setImageResource(R.drawable.lock_close_icon);
+                binding.lockButton.setImageResource(R.drawable.lock_close_icon);
             }
         });
 
@@ -440,9 +436,14 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         });
 
         playInFullscreen(isFullscreen);
-        setVisibility();
         loudnessEnhancer = new LoudnessEnhancer(exoPlayer.getAudioSessionId());
         loudnessEnhancer.setEnabled(true);
+        
+        binding.playerView.setControllerVisibilityListener( it -> {
+            if (isLocked) binding.lockButton.setVisibility(View.VISIBLE);
+            else if (binding.playerView.isControllerVisible()) binding.lockButton.setVisibility(View.VISIBLE);
+            else binding.lockButton.setVisibility(View.GONE);
+        });
 
     }
 
@@ -493,17 +494,8 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         }
     }
 
-    private void setVisibility () {
-        runnable = () -> {
-            if (binding.playerView.isControllerVisible()) changeVisibility(View.VISIBLE);
-            else changeVisibility(View.INVISIBLE);
-            new Handler(Looper.getMainLooper()).postDelayed(runnable, 280);
-        };
-        new Handler().postDelayed(runnable, 0);
-    }
-
     private void changeVisibility (int visibility) {
-        if (!isLocked) lockButton.setVisibility(visibility);
+        if (!isLocked) binding.lockButton.setVisibility(visibility);
         findViewById(R.id.rewind_button).setVisibility(View.GONE);
         findViewById(R.id.forward_button).setVisibility(View.GONE);
     }
