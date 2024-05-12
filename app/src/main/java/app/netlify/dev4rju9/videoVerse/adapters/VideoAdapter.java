@@ -177,6 +177,44 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 info_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
                 info_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
             });
+            // Delete Feature
+            binding.deleteButton.setOnClickListener( mv -> {
+                requestPermissionR();
+                dialog.dismiss();
+                AlertDialog delete_dialog = new MaterialAlertDialogBuilder(context)
+                        .setCancelable(false)
+                        .setTitle("Video will be deleted!")
+                        .setMessage(videoList.get(position).getTitle())
+                        .setPositiveButton("Confirm", (self, which) -> {
+                            File currentFile = new File(videoList.get(position).getPath());
+                            if (currentFile.exists() && currentFile.delete()) {
+                                MediaScannerConnection.scanFile(context, new String[] {currentFile.getPath()}, new String[] {"video/*"}, null);
+
+                                if (MainActivity.isSearched) {
+                                    videoList.remove(position);
+                                    MainActivity.dataChanged = true;
+                                    notifyDataSetChanged();
+                                } else if (PlayerActivity.isFolder) {
+                                    FoldersActivity.LIST.remove(position);
+                                    MainActivity.dataChanged = true;
+                                    notifyDataSetChanged();
+                                } else {
+                                    MainActivity.VIDEO_LIST.remove(position);
+                                    MainActivity.dataChanged = true;
+                                    notifyDataSetChanged();
+                                }
+
+                            } else Toast.makeText(context, "Permission Denied!!", Toast.LENGTH_SHORT).show();
+                            self.dismiss();
+                        })
+                        .setNegativeButton("Discard", (self, which) -> self.dismiss())
+                        .create();
+                delete_dialog.show();
+                delete_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
+                delete_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
+                delete_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
+                delete_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
+            });
 
             return true;
         });

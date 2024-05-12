@@ -20,6 +20,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Video> VIDEO_LIST;
     public static ArrayList<Folder> FOLDER_LIST;
     public static ArrayList<Video> SEARCHED_LIST;
-    public static boolean isSearched = false, dataChanged = false;
+    public static boolean isSearched = false, dataChanged = false, adapterChanged = false;
+    private Runnable videoRunnable = null;
     public static int THEME_INDEX = 0;
     public static int[] THEMES = {
             R.style.DeepSkyBlueNav, R.style.BrownNav, R.style.YellowNav, R.style.PurpleNav,
@@ -71,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
             FOLDER_LIST = new ArrayList<>();
             VIDEO_LIST = getAllVideos();
             setFragment(new VideoFragment());
+
+            videoRunnable = () -> {
+                if (dataChanged) {
+                    VIDEO_LIST = getAllVideos();
+                    dataChanged = false;
+                    adapterChanged = true;
+                }
+                new Handler(Looper.getMainLooper()).postDelayed(videoRunnable, 200);
+            };
+            new Handler(Looper.getMainLooper()).postDelayed(videoRunnable, 0);
+
         }
 
         toggle = new ActionBarDrawerToggle(this, binding.getRoot(), R.string.tv_open, R.string.tv_close);
@@ -83,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding.bottomNav.setOnItemSelectedListener( item -> {
 
-            if (dataChanged) VIDEO_LIST = getAllVideos();
             int itemId = item.getItemId(); // item id of clicked item from bottom navigation bar.
 
             if (itemId == R.id.videoView) {
@@ -361,4 +374,9 @@ public class MainActivity extends AppCompatActivity {
         
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        videoRunnable = null;
+    }
 }

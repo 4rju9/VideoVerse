@@ -97,7 +97,7 @@ public class VideoFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (PlayerActivity.POS != -1) binding.nowPlayingIcon.setVisibility(View.VISIBLE);
-        if (MainActivity.dataChanged) adapter.notifyDataSetChanged();
-        MainActivity.dataChanged = false;
+        if (MainActivity.adapterChanged) adapter.notifyDataSetChanged();
+        MainActivity.adapterChanged = false;
     }
 }
