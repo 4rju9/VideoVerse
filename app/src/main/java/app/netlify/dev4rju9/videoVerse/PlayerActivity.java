@@ -279,7 +279,7 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
                 new MaterialAlertDialogBuilder(this, R.style.alertDialog)
                         .setTitle("Select Language")
                         .setOnCancelListener( d -> playVideo())
-                        .setPositiveButton("Mute Audio", (self, pos) -> {
+                        .setPositiveButton("Disable", (self, pos) -> {
                             trackSelector.setParameters(trackSelector.buildUponParameters()
                                     .setRendererDisabled(C.TRACK_TYPE_AUDIO, true));
                             self.dismiss();
@@ -295,16 +295,43 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
             });
 
             featuresBinding.subtitles.setOnClickListener( view -> {
-                boolean isSubtitles = trackSelector.getParameters()
-                        .getRendererDisabled(C.TRACK_TYPE_VIDEO);
-                trackSelector.setParameters(
-                            new DefaultTrackSelector.Parameters.Builder(this)
-                                    .setRendererDisabled(C.TRACK_TYPE_VIDEO, !isSubtitles).build());
-                String message = "Subtitles on";
-                if (!isSubtitles) message = "Subtitles off";
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
                 mainDialog.dismiss();
-                playVideo();
+                pauseVideo();
+
+                ArrayList<String> subtitles = new ArrayList<>();
+                ArrayList<String> subtitlesList = new ArrayList<>();
+
+                for (Tracks.Group group : exoPlayer.getCurrentTracks().getGroups()) {
+                    if (group.getType() == C.TRACK_TYPE_TEXT) {
+                        TrackGroup groupInfo = group.getMediaTrackGroup();
+                        int length = groupInfo.length;
+                        for (int i=0; i<length; i++) {
+                            subtitles.add(groupInfo.getFormat(i).language);
+                            String text = "";
+                            text += subtitlesList.size() + 1 + " ";
+                            text += new Locale(groupInfo.getFormat(i).language).getDisplayLanguage();
+                            text += " (" + groupInfo.getFormat(i).label + ")";
+                            subtitlesList.add(text);
+                        }
+                    }
+                }
+
+                new MaterialAlertDialogBuilder(this, R.style.alertDialog)
+                        .setTitle("Select Subtitles")
+                        .setOnCancelListener( d -> playVideo())
+                        .setPositiveButton("Disable", (self, pos) -> {
+                            trackSelector.setParameters(trackSelector.buildUponParameters()
+                                    .setRendererDisabled(C.TRACK_TYPE_VIDEO, true));
+                            self.dismiss();
+                        })
+                        .setBackground(new ColorDrawable(0xB300BEF7))
+                        .setItems(subtitlesList.toArray(new String[0]),
+                                (dial, pos) -> trackSelector.setParameters(
+                                        trackSelector.buildUponParameters()
+                                                .setRendererDisabled(C.TRACK_TYPE_VIDEO, false)
+                                                .setPreferredTextLanguage(subtitles.get(pos))
+                                ))
+                        .create().show();
             });
 
             featuresBinding.booster.setOnClickListener( view -> {
