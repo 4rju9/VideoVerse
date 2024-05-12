@@ -30,6 +30,8 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.vkay94.dtpv.youtube.YouTubeOverlay;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
@@ -182,20 +184,6 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
             }
         });
-
-        findViewById(R.id.rewind_frame).setOnClickListener(new DoubleClickListener(() -> {
-            binding.playerView.showController();
-            findViewById(R.id.rewind_button).setVisibility(View.VISIBLE);
-            long position = exoPlayer.getCurrentPosition() - 10000;
-            exoPlayer.seekTo(Math.max(0, position));
-        }));
-        findViewById(R.id.forward_frame).setOnClickListener(new DoubleClickListener(() -> {
-            binding.playerView.showController();
-            findViewById(R.id.forward_button).setVisibility(View.VISIBLE);
-            long position = exoPlayer.getCurrentPosition() + 10000;
-            long max = exoPlayer.getDuration();
-            exoPlayer.seekTo(Math.min(position, max));
-        }));
 
         findViewById(R.id.player_back_button).setOnClickListener( v -> finish());
         playPauseBtn.setOnClickListener( v -> {
@@ -473,7 +461,7 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         exoPlayer = new ExoPlayer.Builder(this)
                 .setTrackSelector(trackSelector)
                 .build();
-        binding.playerView.setPlayer(exoPlayer);
+        doubleTapEnable();
 
         MediaItem mediaItem = MediaItem.fromUri(PlayerActivity.PLAYER_LIST.get(POS).getVideoUri());
         exoPlayer.setMediaItem(mediaItem);
@@ -500,8 +488,6 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
             if (isLocked) binding.lockButton.setVisibility(View.VISIBLE);
             else if (binding.playerView.isControllerVisible()) binding.lockButton.setVisibility(View.VISIBLE);
             else binding.lockButton.setVisibility(View.GONE);
-            findViewById(R.id.forward_button).setVisibility(View.GONE);
-            findViewById(R.id.rewind_button).setVisibility(View.GONE);
         });
 
     }
@@ -611,6 +597,24 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), binding.getRoot());
         controller.hide(WindowInsetsCompat.Type.systemBars());
         controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+    }
+
+    private void doubleTapEnable () {
+
+        binding.playerView.setPlayer(exoPlayer);
+        binding.ytOverlay.performListener(new YouTubeOverlay.PerformListener() {
+            @Override
+            public void onAnimationEnd() {
+                binding.ytOverlay.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationStart() {
+                binding.ytOverlay.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.ytOverlay.player(exoPlayer);
+
     }
 
 }
