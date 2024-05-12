@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.audiofx.LoudnessEnhancer;
@@ -22,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -34,6 +36,8 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Timer;
@@ -82,22 +86,39 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
         controller.hide(WindowInsetsCompat.Type.systemBars());
         controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
 
-        initializePlayer();
-        initializeBinding();
+        // For handling video file intent;
+        try {
+            Intent myIntent = getIntent();
+            if ((myIntent != null) && (myIntent.getData() != null) && (myIntent.getData().getScheme().contentEquals("content"))) {
 
-        binding.rewindFrame.setOnClickListener(new DoubleClickListener(() -> {
-            binding.playerView.showController();
-            binding.rewindButton.setVisibility(View.VISIBLE);
-            long position = exoPlayer.getCurrentPosition() - 10000;
-            exoPlayer.seekTo(Math.max(0, position));
-        }));
-        binding.forwardFrame.setOnClickListener(new DoubleClickListener(() -> {
-            binding.playerView.showController();
-            binding.forwardButton.setVisibility(View.VISIBLE);
-            long position = exoPlayer.getCurrentPosition() + 10000;
-            long max = exoPlayer.getDuration();
-            exoPlayer.seekTo(Math.min(position, max));
-        }));
+                PLAYER_LIST = new ArrayList<>();
+                POS = 0;
+
+                Cursor cursor = getContentResolver().query(
+                        myIntent.getData(),
+                        new String[] {MediaStore.Video.Media.DATA},
+                        null, null, null
+                );
+
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    @SuppressLint("Range")
+                    String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                    File file = new File(path);
+                    Video video = new Video("", file.getName(), "", "", path, 0L, Uri.fromFile(file));
+                    PLAYER_LIST.add(video);
+                    cursor.close();
+                }
+                createPlayer();
+                initializeBinding();
+
+            } else {
+                initializePlayer();
+                initializeBinding();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -139,6 +160,20 @@ public class PlayerActivity extends AppCompatActivity implements AudioManager.On
 
     @SuppressLint({"PrivateResource", "SetTextI18n", "ServiceCast"})
     private void initializeBinding () {
+
+        binding.rewindFrame.setOnClickListener(new DoubleClickListener(() -> {
+            binding.playerView.showController();
+            binding.rewindButton.setVisibility(View.VISIBLE);
+            long position = exoPlayer.getCurrentPosition() - 10000;
+            exoPlayer.seekTo(Math.max(0, position));
+        }));
+        binding.forwardFrame.setOnClickListener(new DoubleClickListener(() -> {
+            binding.playerView.showController();
+            binding.forwardButton.setVisibility(View.VISIBLE);
+            long position = exoPlayer.getCurrentPosition() + 10000;
+            long max = exoPlayer.getDuration();
+            exoPlayer.seekTo(Math.min(position, max));
+        }));
 
         binding.playerBackButton.setOnClickListener( v -> finish());
         binding.playPauseButton.setOnClickListener( v -> {
