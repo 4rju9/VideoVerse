@@ -488,6 +488,7 @@ public class PlayerActivity extends AppCompatActivity {
                 PlayerActivity.LIST_CODE = pipStatus;
                 startActivity(intent);
             }
+            if (!isInPictureInPictureMode) pauseVideo();
         }
     }
 
