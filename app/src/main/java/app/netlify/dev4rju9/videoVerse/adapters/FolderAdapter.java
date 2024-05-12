@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
+
 import java.util.ArrayList;
 
 import app.netlify.dev4rju9.videoVerse.FoldersActivity;
@@ -53,7 +56,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
     public class FolderViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
-        LinearLayoutCompat root;
+        MaterialCardView root;
 
         public FolderViewHolder (FolderViewBinding binding) {
             super(binding.getRoot());

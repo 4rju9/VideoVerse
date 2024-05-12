@@ -1,60 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="2dp"
-    android:layout_marginBottom="6dp"
+    android:layout_margin="5dp"
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackground"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:id="@+id/videoImage"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:src="@drawable/play"
-        android:contentDescription="@string/tv_image"
-        app:shapeAppearanceOverlay="@style/curved"/>
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="?attr/ThemeSecondary">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="6dp"
-        android:padding="2dp"
-        android:orientation="vertical">
+        android:paddingEnd="2dp"
+        android:orientation="horizontal"
+        tools:ignore="RtlSymmetry">
 
-        <TextView
-            android:id="@+id/videoTitleName"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+        <ImageView
+            android:id="@+id/videoImage"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/play"
+            android:contentDescription="@string/tv_image"
+            app:shapeAppearanceOverlay="@style/curved"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/tv_video_name"
-            android:textColor="?attr/ThemeTextColor"
-            android:maxLines="1"
-            android:gravity="center_vertical"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="6dp"
+            android:padding="2dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/videoTitleName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/tv_video_name"
+                android:textColor="?attr/ThemeTextColor"
+                android:maxLines="1"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/videoFolderName"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="@string/tv_folder_name"
+                android:textColor="?attr/ThemeTextColor"
+                android:maxLines="1"
+                android:gravity="center_vertical"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
-            android:id="@+id/videoFolderName"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:text="@string/tv_folder_name"
+            android:id="@+id/videoDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/tv_duration"
             android:textColor="?attr/ThemeTextColor"
-            android:maxLines="1"
-            android:gravity="center_vertical"/>
+            android:gravity="center"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <TextView
-        android:id="@+id/videoDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/tv_duration"
-        android:textColor="?attr/ThemeTextColor"
-        android:gravity="center"/>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</com.google.android.material.card.MaterialCardView>
