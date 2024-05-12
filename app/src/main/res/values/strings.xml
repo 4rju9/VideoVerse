@@ -43,4 +43,10 @@
     <string name="delete">Delete</string>
     <string name="info">Info</string>
     <string name="share">Share</string>
+
+    // For Video Details Feature
+    <string name="name">Name:</string>
+    <string name="duration">Duration:</string>
+    <string name="file_size">File Size:</string>
+    <string name="location">Location:</string>
 </resources>

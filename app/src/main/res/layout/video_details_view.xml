@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/info"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textStyle="bold"
+                android:layout_marginEnd="15dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:id="@+id/title_details_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name of the file will be displayed here!!"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duration"
+                android:textStyle="bold"
+                android:layout_marginEnd="15dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:id="@+id/duration_details_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="33:06"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/file_size"
+                android:textStyle="bold"
+                android:layout_marginEnd="15dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:id="@+id/file_size_details_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="89 MB"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textStyle="bold"
+                android:layout_marginEnd="15dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:id="@+id/location_details_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/storage/emulated/0/Downloads/OnePiece"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

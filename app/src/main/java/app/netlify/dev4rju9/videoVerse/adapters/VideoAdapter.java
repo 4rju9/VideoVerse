@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.text.SpannableStringBuilder;
 import android.text.format.DateUtils;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import app.netlify.dev4rju9.videoVerse.MainActivity;
 import app.netlify.dev4rju9.videoVerse.PlayerActivity;
 import app.netlify.dev4rju9.videoVerse.R;
 import app.netlify.dev4rju9.videoVerse.databinding.RenameFieldBinding;
+import app.netlify.dev4rju9.videoVerse.databinding.VideoDetailsViewBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.VideoMoreFeaturesBinding;
 import app.netlify.dev4rju9.videoVerse.databinding.VideoViewBinding;
 import app.netlify.dev4rju9.videoVerse.models.Video;
@@ -154,6 +156,26 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                         ),
                         null
                 );
+            });
+            // Video Info Feature
+            binding.infoButton.setOnClickListener( mv -> {
+                dialog.dismiss();
+                View view = LayoutInflater.from(context).inflate(R.layout.video_details_view, holder.root, false);
+                VideoDetailsViewBinding info_binding = VideoDetailsViewBinding.bind(view);
+                AlertDialog info_dialog = new MaterialAlertDialogBuilder(context).setView(view)
+                        .setCancelable(false)
+                        .setPositiveButton("Close", (self, which) -> {
+                            self.dismiss();
+                        })
+                        .create();
+                info_dialog.show();
+                Video currentVideo = videoList.get(position);
+                info_binding.titleDetailsView.setText(currentVideo.getTitle());
+                info_binding.durationDetailsView.setText(DateUtils.formatElapsedTime(currentVideo.getDuration()/1000));
+                info_binding.fileSizeDetailsView.setText(Formatter.formatShortFileSize(context, Long.parseLong(currentVideo.getSize())));
+                info_binding.locationDetailsView.setText(currentVideo.getPath());
+                info_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(MaterialColors.getColor(context, R.attr.ThemePrimary, Color.RED));
+                info_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(MaterialColors.getColor(context, R.attr.ThemeTextColor, Color.WHITE));
             });
 
             return true;
