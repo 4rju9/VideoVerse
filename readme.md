@@ -7,10 +7,12 @@
 <b>A mobile phone application that allows you to listen to music files stored in the phone's internal or external memory. </b>
 
 ## Implementation
-The game is implemented using the following technologies:
-   * Android Studio
-   * Java
-   * XML
+This app is made up of:
+   * Fragments
+   * ExoPlayer
+   * Navigation View
+   * Custom Material Dialog
+   * Uses-Permissions
 
 <!-- ## Usage
 <b>Disclaimer :</b>
