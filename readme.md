@@ -14,6 +14,19 @@ This app is made up of:
    * Custom Material Dialog
    * Uses-Permissions
 
+
+## Features
+This app consists various useful features:
+   * Themes
+   * Sort Orders
+   * Search Videos
+   * Audio Track Selection
+   * Subtitles Track Selection
+   * Boost Audio
+   * Speed Manipulation
+   * Picture in Picture Mode
+   * Timer to auto close
+
 <!-- ## Usage
 <b>Disclaimer :</b>
 * This app is not published on Playstore, you have to download this from
